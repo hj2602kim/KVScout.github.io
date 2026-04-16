@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI/Memory Reading List</title>
+  <style>
+    :root { color-scheme: dark; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; background: #0a0f1e; color: #e2e8f0; line-height: 1.6; }
+    main { max-width: 1120px; margin: 0 auto; padding: 28px 20px; }
+
+    /* ── Layout blocks ── */
+    .hero { background: linear-gradient(135deg, #111827 0%, #1a2540 100%); border: 1px solid #1e3a5f; border-radius: 16px; padding: 24px 28px; margin-bottom: 20px; }
+    .hero h1 { font-size: 1.6rem; color: #93c5fd; margin: 0 0 8px 0; }
+    .hero p { margin: 4px 0; color: #94a3b8; font-size: 0.92rem; }
+    .panel { background: #111827; border: 1px solid #1e293b; border-radius: 14px; padding: 18px 22px; margin-bottom: 16px; }
+    .panel h2 { font-size: 1rem; color: #cbd5e1; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.05em; }
+    .panel h3 { font-size: 0.9rem; color: #94a3b8; margin: 14px 0 6px 0; }
+    .panel ul { margin: 0; padding-left: 18px; color: #94a3b8; font-size: 0.88rem; }
+    .panel li { margin: 3px 0; }
+
+    /* ── Controls ── */
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; }
+    input[type=search], select {
+      padding: 9px 14px; border-radius: 10px; border: 1px solid #334155;
+      background: #0d1526; color: #e2e8f0; font-size: 0.9rem; outline: none;
+    }
+    input[type=search] { flex: 1 1 260px; }
+    input[type=search]:focus, select:focus { border-color: #3b82f6; }
+
+    /* ── Article card ── */
+    .card {
+      background: #111827; border: 1px solid #1e293b; border-radius: 14px;
+      padding: 20px 22px; margin-bottom: 14px;
+      transition: border-color 0.15s;
+    }
+    .card:hover { border-color: #334155; }
+    .card-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+    .rank { font-size: 0.78rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    h2 { margin: 0 0 4px 0; font-size: 1.05rem; line-height: 1.4; }
+    h2 a { color: #93c5fd; text-decoration: none; }
+    h2 a:hover { color: #bfdbfe; text-decoration: underline; }
+    .meta { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
+
+    /* ── Score box ── */
+    .score-box {
+      min-width: 90px; flex-shrink: 0; text-align: center;
+      background: #0d1526; border: 1px solid #1e3a5f; border-radius: 12px; padding: 12px 10px;
+    }
+    .score { font-size: 2rem; font-weight: 800; color: #facc15; line-height: 1; }
+    .score-label { font-size: 0.72rem; color: #64748b; margin-top: 4px; line-height: 1.3; }
+
+    /* ── Summary ── */
+    .summary { color: #94a3b8; font-size: 0.9rem; margin: 10px 0; line-height: 1.55; }
+
+    /* ── LLM panel ── */
+    .llm-panel {
+      background: #0d1a2e; border-left: 3px solid #facc15;
+      border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 12px 0;
+    }
+    .llm-scores { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 8px; }
+    .llm-score-item { display: flex; align-items: baseline; gap: 5px; }
+    .llm-score-num { font-size: 1.35rem; font-weight: 700; color: #f1f5f9; }
+    .llm-score-denom { font-size: 0.78rem; color: #64748b; }
+    .llm-score-tag {
+      font-size: 0.72rem; font-weight: 600; padding: 2px 8px;
+      border-radius: 999px; color: #fff; white-space: nowrap;
+    }
+    .llm-score-tag.match { background: #0f766e; }
+    .llm-score-label { font-size: 0.75rem; color: #64748b; }
+    .llm-reason { font-size: 0.85rem; color: #94a3b8; margin-top: 5px; line-height: 1.55; }
+    .reason-label { font-weight: 600; color: #cbd5e1; margin-right: 4px; }
+    .detailed-scores { display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0; padding: 8px 0; border-top: 1px solid #1e3a5f; }
+    .detail-score { font-size: 0.8rem; color: #94a3b8; }
+    .detail-score strong { color: #facc15; font-weight: 700; }
+    .content-summary { font-size: 0.88rem; color: #a5b4fc; margin-top: 8px; padding: 8px; background: #0f172a; border-radius: 6px; line-height: 1.5; }
+    .summary-label { font-weight: 600; color: #c7d2fe; margin-right: 4px; }
+
+    /* ── Chips ── */
+    .chips { display: flex; gap: 7px; flex-wrap: wrap; margin: 10px 0 4px; }
+    .chip {
+      background: #172554; color: #93c5fd; padding: 4px 11px;
+      border-radius: 999px; font-size: 0.78rem; border: 1px solid #1e3a8a;
+      white-space: nowrap;
+    }
+    .chip.tier-chip { color: #fff; border-color: transparent; }
+    .chip.match-chip { background: #134e4a; color: #5eead4; border-color: #0f766e; }
+
+    /* ── Details / breakdown ── */
+    details { margin-top: 14px; }
+    summary { cursor: pointer; font-size: 0.85rem; color: #60a5fa; user-select: none; }
+    summary:hover { color: #93c5fd; }
+    .details-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px; margin-top: 12px;
+    }
+    .details-grid h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; margin: 0 0 8px 0; }
+    .details-grid ul { margin: 0; padding-left: 16px; font-size: 0.84rem; color: #94a3b8; }
+    .details-grid li { margin: 4px 0; }
+    .bd-label { font-weight: 600; color: #cbd5e1; }
+    .tier-badge { font-size: 0.7rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; color: #fff; }
+    .match-label { font-size: 0.78rem; background: #134e4a; color: #5eead4; padding: 1px 7px; border-radius: 999px; }
+    .explanation { font-size: 0.8rem; color: #64748b; margin-top: 10px; word-break: break-word; }
+
+    /* ── Misc ── */
+    .muted { color: #64748b; }
+    .hidden { display: none !important; }
+    code { background: #020817; border: 1px solid #1e293b; padding: 1px 6px; border-radius: 5px; font-size: 0.85em; }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <h1>AI/Memory Reading List</h1>
+      <p>Generated at 2026-04-16 23:27:40 from 18 configured sources. This is a single-file HTML view, so you can open it directly in a browser without running a server.</p>
+      <p><strong>How scoring works:</strong> source priority + keyword matches + title bonuses + recency + summary richness. You can control those weights in <code>config/ai_memory_crawler_config.json</code> or via CLI flags.</p>
+      <p><strong>Read tiers:</strong> numeric scores are also translated into five human-friendly buckets like <code>Must Read</code> and <code>Skim</code>.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Current scoring controls</h2>
+      <ul>
+          <li>keyword_weight = 1.0</li>
+          <li>title_keyword_bonus = 0.75</li>
+          <li>source_priority_weight = 0.35</li>
+          <li>title_bonus_weight = 0.25</li>
+          <li>recent_bonus = 0.6</li>
+          <li>summary_bonus = 0.15</li>
+          <li>min_score = 1.0</li>
+          <li>combined_score_weights.heuristic = 0.3</li>
+          <li>combined_score_weights.llm_similarity = 0.7</li>
+        </ul>
+      <h3>Read tiers</h3>
+      <ul><li><strong>Must Read</strong>: score ≥ 8.5 <span class='muted'>(High-signal and directly relevant right now)</span></li><li><strong>Strong Read</strong>: score ≥ 6.5 <span class='muted'>(Very relevant and likely worth focused reading)</span></li><li><strong>Worth Reading</strong>: score ≥ 4.5 <span class='muted'>(Useful, but probably not top priority)</span></li><li><strong>Skim</strong>: score ≥ 2.5 <span class='muted'>(Looks relevant enough to skim first)</span></li><li><strong>Low Priority</strong>: score ≥ 0.0 <span class='muted'>(Keep for later unless something stands out)</span></li></ul>
+      <p class="muted">Optional local LLM rerank: disabled. The default view uses the built-in rule-based score and tier.</p>
+      <p class="muted">Research profile: My Research Profile. When present, the LLM can also return a separate research-match score and AI recommendation score.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Quick browser controls</h2>
+      <div class="controls">
+        <input id="searchInput" type="search" placeholder="Filter by title, source, keyword..." />
+        <select id="sortSelect">
+          <option value="score">Sort by score</option>
+          <option value="title">Sort by title</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="articleList">
+      <article class="card" data-score="12.0" data-title="atant v1.1: positioning continuity evaluation against memory , long-context, and agentic - memory benchmarks">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#1</div>
+                      <h2><a href="https://arxiv.org/abs/2604.10981" target="_blank" rel="noreferrer">ATANT v1.1: Positioning Continuity Evaluation Against Memory , Long-Context, and Agentic - Memory Benchmarks</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">12.0</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">ATANT v1.0 (arXiv:2604.06710) defined continuity as a system property with 7 required properties and introduced a 10-checkpoint, LLM-free evaluation methodology validated on a 250-story corpus. Since publication, a recurring reviewer and practitioner question has concerned not the framework itself but its relationship to a wider set of memory evaluations: LOCOMO, LongMemEval, BEAM, MemoryBench, Zep&#x27;s evaluation suite, Letta/MemGPT&#x27;s evaluations, and RULER. This companion paper, v1.1, does not modify the v1.0 standard. It closes a related-work gap that v1.0 left brief under page limits. We show by structural analysis that none of these benchmarks measures continuity as defined in v1.0: of the 7 required properties, the median existing eval covers 1 property, the mean covers 0.43 when partial credit is scored at 0.5, and no eval covers more than 2. We provide a cell-by-cell property-coverage matrix, identify methodological defects specific to each benchmark (including an empty-gold scoring bug in the LOCOMO reference implementation that renders 23% of its corpus unscorable by construction), and publish our reference implementation&#x27;s LOCOMO score (8.8%) alongside the structural reason that number is uninformative about continuity. We publish our 8.8% LOCOMO score alongside our 96% ATANT cumulative-scale score as a calibration pair: the 87-point divergence is evidence that the two benchmarks measure different properties, not that one system is an order of magnitude better than another. The position v1.1 takes is not adversarial: each benchmark measures a real capability. The claim is that none of them can adjudicate continuity, and conflating them with continuity evaluation has led the field to under-invest in the properties v1.0 names. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Long context, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, benchmark, evaluation, locomo, long-context, longmemeval, memory, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +6.1</li>
+                          <li>Title keyword bonus: +3.0</li>
+                          <li>Title bonus terms: +1.0 <span class='muted'>(memory, agent, benchmark, context)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 6.1, title-match 3.0, title-terms 1.0, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Long context</strong>: +1.0 <span class='muted'>(terms: long-context)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, locomo, longmemeval, evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="10.6" data-title="ama: adaptive memory via multi-agent collaboration">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#2</div>
+                      <h2><a href="https://arxiv.org/abs/2601.20352" target="_blank" rel="noreferrer">AMA: Adaptive Memory via Multi-Agent Collaboration</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">10.6</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2601.20352v3 Announce Type: replace Abstract: The rapid evolution of Large Language Model (LLM) agents has necessitated robust memory systems to support cohesive long-term interaction and complex reasoning. Benefiting from the strong capabilities of LLMs, recent research focus has shifted from simple context extension to the development of dedicated agentic memory systems. However, existing approaches typically rely on rigid retrieval granularity, accumulation-heavy maintenance strategies, and coarse-grained update mechanisms. These design choices create a persistent mismatch between stored information and task-specific reasoning demands, while leading to the unchecked accumulation of logical inconsistencies over time. To address these challenges, we propose Adaptive Memory via Multi-Agent Collaboration (AMA), a novel framework that leverages coordinated agents to manage memory across multiple granularities. AMA employs a hierarchical memory design that dynamically aligns retrieval granularity with task complexity. Specifically, the Constructor and Retriever jointly enable multi-granularity memory construction and adaptive query routing. The Judge verifies the relevance and consistency of retrieved content, triggering iterative retrieval when evidence is insufficient or invoking the Refresher upon detecting logical conflicts. The Refresher then enforces memory consistency by performing targeted updates or removing outdated entries. Extensive experiments on challenging long-context benchmarks show that AMA significantly outperforms state-of-the-art baselines while reducing token consumption by approximately 80% compared to full-context methods, demonstrating its effectiveness in maintaining retrieval precision and long-term memory consistency.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Long context, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, benchmark, long-context, long-term memory, memory, multi-agent, rag, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +6.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 6.1, title-match 1.5, title-terms 0.5, recent 0.6, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, long-term memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic, multi-agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval, rag)</span></li><li><strong>Long context</strong>: +1.0 <span class='muted'>(terms: long-context)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="10.0" data-title="thought-retriever: don&#x27;t just retrieve raw data, retrieve thoughts for memory -augmented agentic systems">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#3</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12231" target="_blank" rel="noreferrer">Thought-Retriever: Don&#x27;t Just Retrieve Raw Data, Retrieve Thoughts for Memory -Augmented Agentic Systems</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">10.0</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Large language models (LLMs) have transformed AI research thanks to their powerful internal capabilities and knowledge. However, existing LLMs still fail to effectively incorporate the massive external knowledge when interacting with the world. Although retrieval-augmented LLMs are proposed to mitigate the issue, they are still fundamentally constrained by the context length of LLMs, as they can only retrieve top-K raw data chunks from the external knowledge base which often consists of millions of data chunks. Here we propose Thought-Retriever, a novel model-agnostic algorithm that helps LLMs generate output conditioned on arbitrarily long external data, without being constrained by the context length or number of retrieved data chunks. Our key insight is to let an LLM fully leverage its intermediate responses generated when solving past user queries (thoughts), filtering meaningless and redundant thoughts, organizing them in thought memory , and retrieving the relevant thoughts when addressing new queries. This effectively equips LLM-based agents with a self-evolving long-term memory that grows more capable through continuous interaction. Besides algorithmic innovation, we further meticulously prepare a novel benchmark, AcademicEval, which requires an LLM to faithfully leverage ultra-long context to answer queries based on real-world academic papers. Extensive experiments on AcademicEval and two other public datasets validate that Thought-Retriever remarkably outperforms state-of-the-art baselines, achieving an average increase of at least 7.6% in F1 score and 16% in win rate across various tasks. More importantly, we further demonstrate two exciting findings: (1) Thought-Retriever can indeed help LLM self-evolve after solving more user queries; (2) Thought-Retriever learns to leverage deeper thoughts to answer more abstract user queries. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Long context, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, benchmark, long context, long-term memory, memory, rag, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +6.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 6.1, title-match 1.5, title-terms 0.5, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, long-term memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval, rag)</span></li><li><strong>Long context</strong>: +1.0 <span class='muted'>(terms: long context)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.75" data-title="time is not a label: continuous phase rotation for temporal knowledge graphs and agentic memory">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#4</div>
+                      <h2><a href="https://arxiv.org/abs/2604.11544" target="_blank" rel="noreferrer">Time is Not a Label: Continuous Phase Rotation for Temporal Knowledge Graphs and Agentic Memory</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.75</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Structured memory representations such as knowledge graphs are central to autonomous agents and other long-lived systems. However, most existing approaches model time as discrete metadata, either sorting by recency (burying old-yet-permanent knowledge), simply overwriting outdated facts, or requiring an expensive LLM call at every ingestion step, leaving them unable to distinguish persistent facts from evolving ones. To address this, we introduce RoMem, a drop-in temporal knowledge graph module for structured memory systems, applicable to agentic memory and beyond. A pretrained Semantic Speed Gate maps each relation&#x27;s text embedding to a volatility score, learning from data that evolving relations (e.g., &quot;president of&quot;) should rotate fast while persistent ones (e.g., &quot;born in&quot;) should remain stable. Combined with continuous phase rotation, this enables geometric shadowing: obsolete facts are rotated out of phase in complex vector space, so temporally correct facts naturally outrank contradictions without deletion. On temporal knowledge graph completion, RoMem achieves state-of-the-art results on ICEWS05-15 (72.6 MRR). Applied to agentic memory , it delivers 2-3x MRR and answer accuracy on temporal reasoning (MultiTQ), dominates hybrid benchmark (LoCoMo), preserves static memory with zero degradation (DMR-MSC), and generalises zero-shot to unseen financial domains (FinTMMBench). △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, benchmark, knowledge graph, locomo, memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +2.25</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 2.25, title-terms 0.5, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: knowledge graph)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, locomo)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.75" data-title="synthius-mem: brain-inspired hallucination-resistant persona memory achieving 94.4% memory accuracy and 99.6% adversarial robustness on locomo">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#5</div>
+                      <h2><a href="https://arxiv.org/abs/2604.11563" target="_blank" rel="noreferrer">Synthius-Mem: Brain-Inspired Hallucination-Resistant Persona Memory Achieving 94.4% Memory Accuracy and 99.6% Adversarial Robustness on LoCoMo</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.75</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Providing AI agents with reliable long-term memory that does not hallucinate remains an open problem. Current approaches to memory for LLM agents -- sliding windows, summarization, embedding-based RAG, and flat fact extraction -- each reduce token cost but introduce catastrophic information loss, semantic drift, or uncontrolled hallucination about the user. The structural reason is architectural: every published memory system on the LoCoMo benchmark treats conversation as a retrieval problem over raw or lightly summarized dialogue segments, and none reports adversarial robustness, the ability to refuse questions about facts the user never disclosed. We present Synthius-Mem, a brain-inspired structured persona memory system that takes a fundamentally different approach. Instead of retrieving what was said, Synthius-Mem extracts what is known about the person: a full persona extraction pipeline decomposes conversations into six cognitive domains (biography, experiences, preferences, social circle, work, psychometrics), consolidates and deduplicates per domain, and retrieves structured facts via CategoryRAG at 21.79 ms latency. On the LoCoMo benchmark (ACL 2024, 10 conversations, 1,813 questions), Synthius-Mem achieves 94.37% accuracy, exceeding all published systems including MemMachine (91.69%, adversarial score is not reported) and human performance (87.9 F1). Core memory fact accuracy reaches 98.64%. Adversarial robustness, the hallucination resistance metric that no competing system reports, reaches 99.55%. Synthius-Mem reduces token consumption by ~5x compared to full-context replay while achieving higher accuracy. Synthius-Mem achieves state-of-the-art results on LoCoMo and is, to our knowledge, the only persona memory system that both exceeds human-level performance and reports adversarial robustness. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks, Cognition</span>
+                    <span class="chip">terms: agent, benchmark, cognitive, locomo, long-term memory, memory, rag, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +6.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(memory)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 6.1, title-match 1.5, title-terms 0.25, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, long-term memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval, rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, locomo)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: cognitive)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.6" data-title="memp: exploring agent procedural memory">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#6</div>
+                      <h2><a href="https://arxiv.org/abs/2508.06433" target="_blank" rel="noreferrer">Memp: Exploring Agent Procedural Memory</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.6</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2508.06433v4 Announce Type: replace-cross Abstract: Large Language Models (LLMs) based agents excel at diverse tasks, yet they suffer from brittle procedural memory that is manually engineered or entangled in static parameters. In this work, we investigate strategies to endow agents with a learnable, updatable, and lifelong procedural memory. We propose Memp that distills past agent trajectories into both fine-grained, step-by-step instructions and higher-level, script-like abstractions, and explore the impact of different strategies for Build, Retrieval, and Update of procedural memory. Coupled with a dynamic regimen that continuously updates, corrects, and deprecates its contents, this repository evolves in lockstep with new experience. Empirical evaluation on TravelPlanner and ALFWorld shows that as the memory repository is refined, agents achieve steadily higher success rates and greater efficiency on analogous tasks. Moreover, procedural memory built from a stronger model retains its value: migrating the procedural memory to a weaker model can also yield substantial performance gains. Code is available at https://github.com/zjunlp/MemP.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Benchmarks, Retrieval</span>
+                    <span class="chip">terms: agent, evaluation, memory, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 1.5, title-terms 0.5, recent 0.6, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.6" data-title="memory transfer learning: how memories are transferred across domains in coding agents">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#7</div>
+                      <h2><a href="https://arxiv.org/abs/2604.14004" target="_blank" rel="noreferrer">Memory Transfer Learning: How Memories are Transferred Across Domains in Coding Agents</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.6</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.14004v1 Announce Type: new Abstract: Memory-based self-evolution has emerged as a promising paradigm for coding agents. However, existing approaches typically restrict memory utilization to homogeneous task domains, failing to leverage the shared infrastructural foundations, such as runtime environments and programming languages, that exist across diverse real-world coding problems. To address this limitation, we investigate \textbf{Memory Transfer Learning} (MTL) by harnessing a unified memory pool from heterogeneous domains. We evaluate performance across 6 coding benchmarks using four memory representations, ranging from concrete traces to abstract insights. Our experiments demonstrate that cross-domain memory improves average performance by 3.7\%, primarily by transferring meta-knowledge, such as validation routines, rather than task-specific code. Importantly, we find that abstraction dictates transferability; high-level insights generalize well, whereas low-level traces often induce negative transfer due to excessive specificity. Furthermore, we show that transfer effectiveness scales with the size of the memory pool, and memory can be transferred even between different models. Our work establishes empirical design principles for expanding memory utilization beyond single-domain silos. Project page: https://memorytransfer.github.io/</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, benchmark, memory, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 1.5, title-terms 0.5, recent 0.6, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.25" data-title="rethinking ai hardware: a three-layer cognitive architecture for autonomous agents">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#8</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13757" target="_blank" rel="noreferrer">Rethinking AI Hardware: A Three-Layer Cognitive Architecture for Autonomous Agents</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.25</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.13757v1 Announce Type: new Abstract: The next generation of autonomous AI systems will be constrained not only by model capability, but by how intelligence is structured across heterogeneous hardware. Current paradigms -- cloud-centric AI, on-device inference, and edge-cloud pipelines -- treat planning, reasoning, and execution as a monolithic process, leading to unnecessary latency, energy consumption, and fragmented behavioral continuity. We introduce the Tri-Spirit Architecture, a three-layer cognitive framework that decomposes intelligence into planning (Super Layer), reasoning (Agent Layer), and execution (Reflex Layer), each mapped to distinct compute substrates and coordinated via an asynchronous message bus. We formalize the system with a parameterized routing policy, a habit-compilation mechanism that promotes repeated reasoning paths into zero-inference execution policies, a convergent memory model, and explicit safety constraints. We evaluate the architecture in a reproducible simulation of 2000 synthetic tasks against cloud-centric and edge-only baselines. Tri-Spirit reduces mean task latency by 75.6 percent and energy consumption by 71.1 percent, while decreasing LLM invocations by 30 percent and enabling 77.6 percent offline task completion. These results suggest that cognitive decomposition, rather than model scaling alone, is a primary driver of system-level efficiency in AI hardware.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Cognition</span>
+                    <span class="chip">terms: agent, cognitive, memory, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.0</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.0, title-match 1.5, title-terms 0.25, recent 0.6, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: cognitive)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.25" data-title="human-inspired context-selective multimodal memory for social robots">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#9</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12081" target="_blank" rel="noreferrer">Human-Inspired Context-Selective Multimodal Memory for Social Robots</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.25</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Memory is fundamental to social interaction, enabling humans to recall meaningful past experiences and adapt their behavior accordingly based on the context. However, most current social robots and embodied agents rely on non-selective, text-based memory , limiting their ability to support personalized, context-aware interactions. Drawing inspiration from cognitive neuroscience, we propose a context-selective, multimodal memory architecture for social robots that captures and retrieves both textual and visual episodic traces, prioritizing moments characterized by high emotional salience or scene novelty. By associating these memories with individual users, our system enables socially personalized recall and more natural, grounded dialogue. We evaluate the selective storage mechanism using a curated dataset of social scenarios, achieving a Spearman correlation of 0.506, surpassing human consistency ($ρ=0.415$) and outperforming existing image memorability models. In multimodal retrieval experiments, our fusion approach improves Recall@1 by up to 13\% over unimodal text or image retrieval. Runtime evaluations confirm that the system maintains real-time performance. Qualitative analyses further demonstrate that the proposed framework produces richer and more socially relevant responses than baseline models. This work advances memory design for social robots by bridging human-inspired selectivity and multimodal retrieval to enhance long-term, personalized human-robot interaction. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks, Cognition</span>
+                    <span class="chip">terms: agent, cognitive, episodic, evaluation, memory, rag, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +6.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, context)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 6.1, title-match 0.75, title-terms 0.5, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval, rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: evaluation)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: episodic, cognitive)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.0" data-title="molmem: memory -augmented agentic reinforcement learning for sample-efficient molecular optimization">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#10</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12237" target="_blank" rel="noreferrer">MolMem: Memory -Augmented Agentic Reinforcement Learning for Sample-Efficient Molecular Optimization</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.0</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">In drug discovery, molecular optimization aims to iteratively refine a lead compound to improve molecular properties while preserving structural similarity to the original molecule. However, each oracle evaluation is expensive, making sample efficiency a key challenge for existing methods under a limited oracle budget. Trial-and-error approaches require many oracle calls, while methods that leverage external knowledge tend to reuse familiar templates and struggle on challenging objectives. A key missing piece is long-term memory that can ground decisions and provide reusable insights for future optimizations. To address this, we present MolMem (\textbf{Mol}ecular optimization with \textbf{Mem}ory), a multi-turn agentic reinforcement learning (RL) framework with a dual- memory system. Specifically, MolMem uses Static Exemplar Memory to retrieve relevant exemplars for cold-start grounding, and Evolving Skill Memory to distill successful trajectories into reusable strategies. Built on this memory -augmented formulation, we train the policy with dense step-wise rewards, turning costly rollouts into long-term knowledge that improves future optimization. Extensive experiments show that MolMem achieves 90\% success on single-property tasks (1.5$\times$ over the best baseline) and 52\% on multi-property tasks using only 500 oracle calls. Our code is available at https://github.com/REAL-Lab-NU/MolMem. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, evaluation, long-term memory, memory, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 1.5, title-terms 0.5, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, long-term memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.0" data-title="gam: hierarchical graph-based agentic memory for llm agents">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#11</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12285" target="_blank" rel="noreferrer">GAM: Hierarchical Graph-based Agentic Memory for LLM Agents</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 14 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.0</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">To sustain coherent long-term interactions, Large Language Model (LLM) agents must navigate the tension between acquiring new information and retaining prior knowledge. Current unified stream-based memory systems facilitate context updates but remain vulnerable to interference from transient noise. Conversely, discrete structured memory architectures provide robust knowledge retention but often struggle to adapt to evolving narratives. To address this, we propose GAM, a hierarchical Graph-based Agentic Memory framework that explicitly decouples memory encoding from consolidation to effectively resolve the conflict between rapid context perception and stable knowledge retention. By isolating ongoing dialogue in an event progression graph and integrating it into a topic associative network only upon semantic shifts, our approach minimizes interference while preserving long-term consistency. Additionally, we introduce a graph-guided, multi-factor retrieval strategy to enhance context precision. Experiments on LoCoMo and LongDialQA indicate that our method consistently outperforms state-of-the-art baselines in both reasoning accuracy and efficiency. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, locomo, memory, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 1.5, title-terms 0.5, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: locomo)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.0" data-title="from translation to superset: benchmark-driven evolution of a production ai agent from rust to python">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#12</div>
+                      <h2><a href="https://arxiv.org/abs/2604.11518" target="_blank" rel="noreferrer">From Translation to Superset: Benchmark-Driven Evolution of a Production AI Agent from Rust to Python</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.0</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Cross-language migration of large software systems is a persistent engineering challenge, particularly when the source codebase evolves rapidly. We present a methodology for LLM-assisted continuous code translation in which a large language model translates a production Rust codebase (648K LOC, 65 crates) into Python (41K LOC, 28 modules), with public agent benchmarks as the objective function driving iterative refinement. Our subject system is Codex CLI, a production AI coding agent . We demonstrate that: (1) the Python port resolves 59/80 SWE-bench Verified tasks (73.8%) versus Rust&#x27;s 56/80 (70.0%), and achieves 42.5% on Terminal-Bench versus Rust&#x27;s 47.5%, confirming near-parity on real-world agentic tasks; (2) benchmark-driven debugging, revealing API protocol mismatches, environment pollution, a silent WebSocket failure mode, and an API 400 crash, is more effective than static testing alone; (3) the architecture supports continuous upstream synchronisation via an LLM-assisted diff-translate-test loop; and (4) the Python port has evolved into a capability superset with 30 feature-flagged extensions (multi- agent orchestration, semantic memory , guardian safety, cost tracking) absent from Rust, while preserving strict parity mode for comparison. Our evaluation shows that for LLM-based agents where API latency dominates, Python&#x27;s expressiveness yields a 15.9x code reduction with negligible performance cost, while the benchmark-as-objective-function methodology provides a principled framework for growing a cross-language port from parity into an extended platform. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Benchmarks, Cognition</span>
+                    <span class="chip">terms: agent, agentic, benchmark, evaluation, memory, semantic memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(agent, benchmark)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 1.5, title-terms 0.5, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, evaluation)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: semantic memory)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.0" data-title="every picture tells a dangerous story: memory -augmented multi- agent jailbreak attacks on vlms">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#13</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12616" target="_blank" rel="noreferrer">Every Picture Tells a Dangerous Story: Memory -Augmented Multi- Agent Jailbreak Attacks on VLMs</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 14 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.0</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">The rapid evolution of Vision-Language Models (VLMs) has catalyzed unprecedented capabilities in artificial intelligence; however, this continuous modal expansion has inadvertently exposed a vastly broadened and unconstrained adversarial attack surface. Current multimodal jailbreak strategies primarily focus on surface-level pixel perturbations and typographic attacks or harmful images; however, they fail to engage with the complex semantic structures intrinsic to visual data. This leaves the vast semantic attack surface of original, natural images largely unscrutinized. Driven by the need to expose these deep-seated semantic vulnerabilities, we introduce \textbf{MemJack}, a \textbf{MEM}ory-augmented multi- agent \textbf{JA}ilbreak atta\textbf{CK} framework that explicitly leverages visual semantics to orchestrate automated jailbreak attacks. MemJack employs coordinated multi- agent cooperation to dynamically map visual entities to malicious intents, generate adversarial prompts via multi-angle visual-semantic camouflage, and utilize an Iterative Nullspace Projection (INLP) geometric filter to bypass premature latent space refusals. By accumulating and transferring successful strategies through a persistent Multimodal Experience Memory , MemJack maintains highly coherent extended multi-turn jailbreak attack interactions across different images, thereby improving the attack success rate (ASR) on new images. Extensive empirical evaluations across full, unmodified COCO val2017 images demonstrate that MemJack achieves a 71.48\% ASR against Qwen3-VL-Plus, scaling to 90\% under extended budgets. Furthermore, to catalyze future defensive alignment research, we will release \textbf{MemJack-Bench}, a comprehensive dataset comprising over 113,000 interactive multimodal jailbreak attack trajectories, establishing a vital foundation for developing inherently robust VLMs. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, evaluation, memory, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 1.5, title-terms 0.5, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.0" data-title="drawing on memory : dual-trace encoding improves cross-session recall in llm agents">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#14</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12948" target="_blank" rel="noreferrer">Drawing on Memory : Dual-Trace Encoding Improves Cross-Session Recall in LLM Agents</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 14 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.0</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">LLM agents with persistent memory store information as flat factual records, providing little context for temporal reasoning, change tracking, or cross-session aggregation. Inspired by the drawing effect [3], we introduce dual-trace memory encoding. In this method, each stored fact is paired with a concrete scene trace, a narrative reconstruction of the moment and context in which the information was learned. The agent is forced to commit to specific contextual details during encoding, creating richer, more distinctive memory traces. Using the LongMemEval-S benchmark (4,575 sessions, 100 recall questions), we compare dual-trace encoding against a fact-only control with matched coverage and format over 99 shared questions. Dual-trace achieves 73.7% overall accuracy versus 53.5%, a +20.2 percentage point (pp) gain (95% CI: [+12.1, +29.3], bootstrap p &lt; 0.0001). Gains concentrate in temporal reasoning (+40pp), knowledge-update tracking (+25pp), and multi-session aggregation (+30pp), with no benefit for single-session retrieval, consistent with encoding specificity theory [8]. Token analysis shows dual-trace encoding achieves this gain at no additional cost. We additionally sketch an architectural design for adapting dual-trace encoding to coding agents , with preliminary pilot validation. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, benchmark, longmemeval, memory, persistent memory, rag, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 1.5, title-terms 0.5, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, persistent memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval, rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, longmemeval)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.0" data-title="a benchmark and multi- agent system for instruction-driven cinematic video compilation">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#15</div>
+                      <h2><a href="https://arxiv.org/abs/2604.10456" target="_blank" rel="noreferrer">A Benchmark and Multi- Agent System for Instruction-driven Cinematic Video Compilation</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 12 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.0</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">The surging demand for adapting long-form cinematic content into short videos has motivated the need for versatile automatic video compilation systems. However, existing compilation methods are limited to predefined tasks, and the community lacks a comprehensive benchmark to evaluate the cinematic compilation. To address this, we introduce CineBench, the first benchmark for instruction-driven cinematic video compilation, featuring diverse user instructions and high-quality ground-truth compilations annotated by professional editors. To overcome contextual collapse and temporal fragmentation, we present CineAgents, a multi- agent system that reformulates cinematic video compilation into ``design-and-compose&#x27;&#x27; paradigm. CineAgents performs script reverse-engineering to construct a hierarchical narrative memory to provide multi-level context and employs an iterative narrative planning process that refines a creative blueprint into a final compiled script. Extensive experiments demonstrate that CineAgents significantly outperforms existing methods, generating compilations with superior narrative coherence and logical coherence. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, benchmark, memory, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(agent, benchmark)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 1.5, title-terms 0.5, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.8" data-title="liveclawbench: benchmarking llm agents on complex, real-world assistant tasks">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#16</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13072" target="_blank" rel="noreferrer">LiveClawBench: Benchmarking LLM Agents on Complex, Real-World Assistant Tasks</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.8</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.13072v1 Announce Type: cross Abstract: LLM-based agents are increasingly expected to handle real-world assistant tasks, yet existing benchmarks typically evaluate them under isolated sources of difficulty, such as a single environment or fully specified instructions. This leaves a substantial gap between current evaluation settings and the compositional challenges that arise in practical deployment. To address this gap, we introduce LiveClawBench, a benchmark to evaluate LLM agents on real-world assistant tasks. Based on an analysis of various real OpenClaw usage cases, we derive a Triple-Axis Complexity Framework that characterizes task difficulty along three dimensions: Environment Complexity, Cognitive Demand, and Runtime Adaptability. Guided by this framework, we construct a pilot benchmark with explicit complexity-factor annotations, covering real-world assistant tasks with compositional difficulty. Together, the framework and benchmark provide a principled foundation for evaluating LLM agents in realistic assistant settings, and establish a basis for future expansion across task domains and complexity axes. We are continuing to enrich our case collections to achieve more comprehensive domain and complexity coverage. The project page is at https://github.com/Mosi-AI/LiveClawBench.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: Agents, Retrieval, Benchmarks, Cognition</span>
+                    <span class="chip">terms: agent, benchmark, cognitive, evaluation, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.3</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(agent, benchmark)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.3, title-match 1.5, title-terms 0.5, recent 0.6, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, evaluation)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: cognitive)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.75" data-title="the missing knowledge layer in cognitive architectures for ai agents">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#17</div>
+                      <h2><a href="https://arxiv.org/abs/2604.11364" target="_blank" rel="noreferrer">The Missing Knowledge Layer in Cognitive Architectures for AI Agents</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.75</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">The two most influential cognitive architecture frameworks for AI agents , CoALA [21] and JEPA [12], both lack an explicit Knowledge layer with its own persistence semantics. This gap produces a category error: systems apply cognitive decay to factual claims, or treat facts and experiences with identical update mechanics. We survey persistence semantics across existing memory systems and identify eight convergence points, from Karpathy&#x27;s LLM Knowledge Base [10] to the BEAM benchmark&#x27;s near-zero contradiction-resolution scores [22], all pointing to related architectural gaps. We propose a four-layer decom position (Knowledge, Memory , Wisdom, Intelligence) where each layer has fundamentally different persistence semantics: indefinite supersession, Ebbinghaus decay, evidence-gated revision, and ephemeral inference respectively. Companion implementations in Python and Rust demonstrate the architectural separation is feasible. We borrow terminology from cognitive science as a useful analogy (the Knowledge/ Memory distinction echoes Tulving&#x27;s trichotomy), but our layers are engineering constructs justified by persistence-semantics requirements, not by neural architecture. We argue that these distinctions demand distinct persistence semantics in engineering implementations, and that no current framework or system provides this. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Benchmarks, Cognition</span>
+                    <span class="chip">terms: agent, benchmark, cognitive, memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 1.5, title-terms 0.25, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: cognitive)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.6" data-title="implicitmembench: measuring unconscious behavioral adaptation in large language models">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#18</div>
+                      <h2><a href="https://arxiv.org/abs/2604.08064" target="_blank" rel="noreferrer">ImplicitMemBench: Measuring Unconscious Behavioral Adaptation in Large Language Models</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.6</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.08064v2 Announce Type: replace Abstract: Existing memory benchmarks for LLM agents evaluate explicit recall of facts, yet overlook implicit memory where experience becomes automated behavior without conscious retrieval. This gap is critical: effective assistants must automatically apply learned procedures or avoid failed actions without explicit reminders. We introduce ImplicitMemBench, the first systematic benchmark evaluating implicit memory through three cognitively grounded constructs drawn from standard cognitive-science accounts of non-declarative memory: Procedural Memory (one-shot skill acquisition after interference), Priming (theme-driven bias via paired experimental/control instances), and Classical Conditioning (Conditioned Stimulus--Unconditioned Stimulus (CS--US) associations shaping first decisions). Our 300-item suite employs a unified Learning/Priming-Interfere-Test protocol with first-attempt scoring. Evaluation of 17 models reveals severe limitations: no model exceeds 66% overall, with top performers DeepSeek-R1 (65.3%), Qwen3-32B (64.1%), and GPT-5 (63.0%) far below human baselines. Analysis uncovers dramatic asymmetries (inhibition 17.6% vs. preference 75.0%) and universal bottlenecks requiring architectural innovations beyond parameter scaling. ImplicitMemBench reframes evaluation from &quot;what agents recall&quot; to &quot;what they automatically enact&quot;.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks, Cognition</span>
+                    <span class="chip">terms: agent, benchmark, cognitive, evaluation, memory, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +6.1</li>
+                          <li>Title keyword bonus: +0.0</li>
+                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 6.1, recent 0.6, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, evaluation)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: cognitive)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.6" data-title="adaptive memory crystallization for autonomous ai agent learning in dynamic environments">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#19</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13085" target="_blank" rel="noreferrer">Adaptive Memory Crystallization for Autonomous AI Agent Learning in Dynamic Environments</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.6</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.13085v1 Announce Type: cross Abstract: Autonomous AI agents operating in dynamic environments face a persistent challenge: acquiring new capabilities without erasing prior knowledge. We present Adaptive Memory Crystallization (AMC), a memory architecture for progressive experience consolidation in continual reinforcement learning. AMC is conceptually inspired by the qualitative structure of synaptic tagging and capture (STC) theory, the idea that memories transition through discrete stability phases, but makes no claim to model the underlying molecular or synaptic mechanisms. AMC models memory as a continuous crystallization process in which experiences migrate from plastic to stable states according to a multi-objective utility signal. The framework introduces a three-phase memory hierarchy (Liquid--Glass--Crystal) governed by an It\^o stochastic differential equation (SDE) whose population-level behavior is captured by an explicit Fokker--Planck equation admitting a closed-form Beta stationary distribution. We provide proofs of: (i) well-posedness and global convergence of the crystallization SDE to a unique Beta stationary distribution; (ii) exponential convergence of individual crystallization states to their fixed points, with explicit rates and variance bounds; and (iii) end-to-end Q-learning error bounds and matching memory-capacity lower bounds that link SDE parameters directly to agent performance. Empirical evaluation on Meta-World MT50, Atari 20-game sequential learning, and MuJoCo continual locomotion consistently shows improvements in forward transfer (+34--43\% over the strongest baseline), reductions in catastrophic forgetting (67--80\%), and a 62\% decrease in memory footprint.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Benchmarks</span>
+                    <span class="chip">terms: agent, evaluation, locomo, memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.1</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.1, title-match 1.5, title-terms 0.5, recent 0.6, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: locomo, evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.5" data-title="remember me, refine me: a dynamic procedural memory framework for experience-driven agent evolution">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#20</div>
+                      <h2><a href="https://arxiv.org/abs/2512.10696" target="_blank" rel="noreferrer">Remember Me, Refine Me: A Dynamic Procedural Memory Framework for Experience-Driven Agent Evolution</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.5</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2512.10696v2 Announce Type: replace Abstract: Procedural memory enables large language model (LLM) agents to internalize &quot;how-to&quot; knowledge, theoretically reducing redundant trial-and-error. However, existing frameworks predominantly suffer from a &quot;passive accumulation&quot; paradigm, treating memory as a static append-only archive. To bridge the gap between static storage and dynamic reasoning, we propose $\textbf{ReMe}$ ($\textit{Remember Me, Refine Me}$), a comprehensive framework for experience-driven agent evolution. ReMe innovates across the memory lifecycle via three mechanisms: 1) $\textit{multi-faceted distillation}$, which extracts fine-grained experiences by recognizing success patterns, analyzing failure triggers and generating comparative insights; 2) $\textit{context-adaptive reuse}$, which tailors historical insights to new contexts via scenario-aware indexing; and 3) $\textit{utility-based refinement}$, which autonomously adds valid memories and prunes outdated ones to maintain a compact, high-quality experience pool. Extensive experiments on BFCL-V3 and AppWorld demonstrate that ReMe establishes a new state-of-the-art in agent memory system. Crucially, we observe a significant memory-scaling effect: Qwen3-8B equipped with ReMe outperforms larger, memoryless Qwen3-14B, suggesting that self-evolving memory provides a computation-efficient pathway for lifelong learning. We release our code and the $\texttt{reme.library}$ dataset to facilitate further research.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval</span>
+                    <span class="chip">terms: agent, agent memory, memory, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.0</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(memory, agent)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Must Read <span class='muted'>(High-signal and directly relevant right now)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.0, title-match 1.5, title-terms 0.5, recent 0.6, summary 0.15, tier Must Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, agent memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.0" data-title="orbit: guided agentic orchestration for autonomous c-to-rust transpilation">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#21</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12048" target="_blank" rel="noreferrer">ORBIT: Guided Agentic Orchestration for Autonomous C-to-Rust Transpilation</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Large-scale migration of legacy C code to Rust offers a promising path toward improving memory safety, but LLM-based C-to-Rust translation remains challenging due to limited context windows and hallucinations. Prior approaches are evaluated primarily on small programs or datasets skewed toward small codebases, providing limited insight into scalability on real-world systems. They also rely on static context construction, which breaks down in the presence of complex cross-module dependencies and often requires manual intervention. Recent coding agents offer a promising alternative through dynamic codebase navigation and context curation. When used out of the box, however, they frequently produce incomplete translations that appear superficially correct. We present ORBIT, an autonomous agentic framework for project-level C-to-Rust translation that combines dynamic context collection with dependency-guided orchestration and iterative verification. ORBIT constructs a dependency-aware translation graph, generates Rust interfaces, maps C functions to Rust counterparts, and coordinates multiple specialized agents . We evaluate ORBIT on 24 programs from CRUST-Bench, with 91.7% of the programs exceeding 1,000 lines of code. ORBIT achieves 100% compilation success and 91.7% test success in both expert-interface and automatically generated-interface settings, substantially outperforming C2Rust and CRUST-Bench, while reducing unsafe Rust code blocks to nearly zero. We further evaluate ORBIT on challenging cases from the DARPA TRACTOR benchmark, where it achieves competitive performance relative to participating systems. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Long context, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, benchmark, context window, memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 0.75, title-terms 0.25, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Long context</strong>: +1.0 <span class='muted'>(terms: context window)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.0" data-title="memory as metabolism: a design for companion knowledge systems">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#22</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12034" target="_blank" rel="noreferrer">Memory as Metabolism: A Design for Companion Knowledge Systems</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Retrieval-Augmented Generation remains the dominant pattern for giving LLMs persistent memory , but a visible cluster of personal wiki-style memory architectures emerged in April 2026 -- design proposals from Karpathy, MemPalace, and LLM Wiki v2 that compile knowledge into an interlinked artifact for long-term use by a single user. They sit alongside production memory systems that the major labs have shipped for over a year, and an active academic lineage including MemGPT, Generative Agents , Mem0, Zep, A-Mem, MemMachine, SleepGate, and Second Me. Within a 2026 landscape of emerging governance frameworks for agent context and memory -- including Context Cartography and MemOS -- this paper proposes a companion-specific governance profile: a set of normative obligations, a time-structured procedural rule, and testable conformance invariants for the specific failure mode of entrenchment under user-coupled drift in single-user knowledge wikis built on the LLM wiki pattern. The design principle is that personal LLM memory is a companion system: its job is to mirror the user on operational dimensions (working vocabulary, load-bearing structure, continuity of context) and compensate on epistemic failure modes (entrenchment, suppression of contradicting evidence, Kuhnian ossification). Five operations implement this split -- TRIAGE, DECAY, CONTEXTUALIZE, CONSOLIDATE, AUDIT -- supported by memory gravity and minority-hypothesis retention. The sharpest prediction: accumulated contradictory evidence should have a structural path to updating a centrality-protected dominant interpretation through multi-cycle buffer pressure accumulation, a failure mode no existing benchmark captures. The safety story at the single- agent level is partial, and the paper is explicit about what it does and does not solve. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, benchmark, memory, persistent memory, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(memory)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 0.75, title-terms 0.25, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, persistent memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.0" data-title="mem$^2$evolve: towards self-evolving agents via co-evolutionary capability expansion and experience distillation">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#23</div>
+                      <h2><a href="https://arxiv.org/abs/2604.10923" target="_blank" rel="noreferrer">Mem$^2$Evolve: Towards Self-Evolving Agents via Co-Evolutionary Capability Expansion and Experience Distillation</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 12 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">While large language model--powered agents can self-evolve by accumulating experience or by dynamically creating new assets (i.e., tools or expert agents ), existing frameworks typically treat these two evolutionary processes in isolation. This separation overlooks their intrinsic interdependence: the former is inherently bounded by a manually predefined static toolset, while the latter generates new assets from scratch without experiential guidance, leading to limited capability growth and unstable evolution. To address this limitation, we introduce a novel paradigm of co-evolutionary Capability Expansion and Experience Distillation. Guided by this paradigm, we propose the \textbf{Mem$^{\textbf{2}}$Evolve}, which integrates two core components: \textbf{Experience Memory } and \textbf{Asset Memory }. Specifically, Mem$^{2}$Evolve leverages accumulated experience to guide the dynamic creation of assets, thereby expanding the agent&#x27;s capability space while simultaneously acquiring new experience to achieve co-evolution. Extensive experiments across 6 task categories and 8 benchmarks demonstrate that Mem$^{2}$Evolve achieves improvement of 18.53\% over standard LLMs, 11.80\% over agents evolving solely through experience, and 6.46\% over those evolving solely through asset creation, establishing it as a substantially more effective and stable self-evolving agent framework. Code is available at: https://buaa-irip-llm.github.io/Mem2Evolve. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, benchmark, memory, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 0.75, title-terms 0.25, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.0" data-title="m$^\star$: every task deserves its own memory harness">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#24</div>
+                      <h2><a href="https://arxiv.org/abs/2604.11811" target="_blank" rel="noreferrer">M$^\star$: Every Task Deserves Its Own Memory Harness</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 9 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Large language model agents rely on specialized memory systems to accumulate and reuse knowledge during extended interactions. Recent architectures typically adopt a fixed memory design tailored to specific domains, such as semantic retrieval for conversations or skills reused for coding. However, a memory system optimized for one purpose frequently fails to transfer to others. To address this limitation, we introduce M$^\star$, a method that automatically discovers task-optimized memory harnesses through executable program evolution. Specifically, M$^\star$ models an agent memory system as a memory program written in Python. This program encapsulates the data Schema, the storage Logic, and the agent workflow Instructions. We optimize these components jointly using a reflective code evolution method; this approach employs a population-based search strategy and analyzes evaluation failures to iteratively refine the candidate programs. We evaluate M$^\star$ on four distinct benchmarks spanning conversation, embodied planning, and expert reasoning. Our results demonstrate that M$^\star$ improves performance over existing fixed- memory baselines robustly across all evaluated tasks. Furthermore, the evolved memory programs exhibit structurally distinct processing mechanisms for each domain. This finding indicates that specializing the memory mechanism for a given task explores a broad design space and provides a superior solution compared to general-purpose memory paradigms. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, agent memory, benchmark, evaluation, memory, rag, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(memory)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 0.75, title-terms 0.25, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, agent memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval, rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.0" data-title="doc-v*:coarse-to-fine interactive visual reasoning for multi-page document vqa">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#25</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13731" target="_blank" rel="noreferrer">Doc-V*:Coarse-to-Fine Interactive Visual Reasoning for Multi-Page Document VQA</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 15 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Multi-page Document Visual Question Answering requires reasoning over semantics, layouts, and visual elements in long, visually dense documents. Existing OCR-free methods face a trade-off between capacity and precision: end-to-end models scale poorly with document length, while visual retrieval-based pipelines are brittle and passive. We propose Doc-$V^*$, an \textbf{OCR-free agentic } framework that casts multi-page DocVQA as sequential evidence aggregation. Doc-$V^*$ begins with a thumbnail overview, then actively navigates via semantic retrieval and targeted page fetching, and aggregates evidence in a structured working memory for grounded reasoning. Trained by imitation learning from expert trajectories and further optimized with Group Relative Policy Optimization, Doc-$V^*$ balances answer accuracy with evidence-seeking efficiency. Across five benchmarks, Doc-$V^*$ outperforms open-source baselines and approaches proprietary models, improving out-of-domain performance by up to \textbf{47.9\%} over RAG baseline. Other results reveal effective evidence aggregation with selective attention, not increased input pages. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks, Cognition</span>
+                    <span class="chip">terms: agent, agentic, benchmark, memory, rag, retrieval, working memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +6.1</li>
+                          <li>Title keyword bonus: +0.0</li>
+                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 6.1, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval, rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: working memory)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="8.0" data-title="agenticai-dialoggen: topic-guided conversation generation for fine-tuning and evaluating short- and long-term memories of llms">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#26</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12179" target="_blank" rel="noreferrer">AgenticAI-DialogGen: Topic-Guided Conversation Generation for Fine-Tuning and Evaluating Short- and Long-Term Memories of LLMs</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">8.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Recent advancements in Large Language Models (LLMs) have improved their ability to process extended conversational contexts, yet fine-tuning and evaluating short- and long-term memories remain difficult due to the absence of datasets that encode both short- and long-term conversational history. Existing conversational datasets lack memory grounding, overlook topic continuity, or rely on costly human annotation. To address these gaps, we introduce AgenticAI-DialogGen, a modular agent -based framework that generates persona-grounded and topic-guided conversations without human supervision. The framework uses LLM agents to extract knowledge graphs, identify topics, build speaker personas, and simulate topic-guided conversations from unstructured conversations. A QA module generates memory -grounded Question Answer (QA) pairs drawn from short- and long-term conversational histories. We also generated a new dataset entitled, TopicGuidedChat (TGC), where long-term memory is encoded as speaker-specific knowledge graphs and short-term memory as newly generated topic-guided conversations. Evaluations depict that AgenticAI-DialogGen yields higher conversational quality and LLMs fine-tuned on TGC dataset achieve improved performance on memory -grounded QA tasks. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, evaluation, knowledge graph, long-term memory, memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, title-match 0.75, title-terms 0.25, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, long-term memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: knowledge graph)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.9" data-title="affectagent: collaborative multi- agent reasoning for retrieval-augmented multimodal emotion recognition">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#27</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12735" target="_blank" rel="noreferrer">AffectAgent: Collaborative Multi- Agent Reasoning for Retrieval-Augmented Multimodal Emotion Recognition</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 14 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.9</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">LLM-based multimodal emotion recognition relies on static parametric memory and often hallucinates when interpreting nuanced affective states. In this paper, given that single-round retrieval-augmented generation is highly susceptible to modal ambiguity and therefore struggles to capture complex affective dependencies across modalities, we introduce AffectAgent, an affect-oriented multi- agent retrieval-augmented generation framework that leverages collaborative decision-making among agents for fine-grained affective understanding. Specifically, AffectAgent comprises three jointly optimized specialized agents , namely a query planner, an evidence filter, and an emotion generator, which collaboratively perform analytical reasoning to retrieve cross-modal samples, assess evidence, and generate predictions. These agents are optimized end-to-end using Multi- Agent Proximal Policy Optimization (MAPPO) with a shared affective reward to ensure consistent emotion understanding. Furthermore, we introduce Modality-Balancing Mixture of Experts (MB-MoE) and Retrieval-Augmented Adaptive Fusion (RAAF), where MB-MoE dynamically regulates the contributions of different modalities to mitigate representation mismatch caused by cross-modal heterogeneity, while RAAF enhances semantic completion under missing-modality conditions by incorporating retrieved audiovisual embeddings. Extensive experiments on MER-UniBench demonstrate that AffectAgent achieves superior performance across complex scenarios. Our code will be released at: https://github.com/Wz1h1NG/AffectAgent. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval</span>
+                    <span class="chip">terms: agent, memory, rag, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.0</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(agent, retrieval)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.0, title-match 1.5, title-terms 0.5, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval, rag)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.8" data-title="merrin: a benchmark for multimodal evidence retrieval and reasoning in noisy web environments">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#28</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13418" target="_blank" rel="noreferrer">MERRIN: A Benchmark for Multimodal Evidence Retrieval and Reasoning in Noisy Web Environments</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.8</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.13418v1 Announce Type: cross Abstract: Motivated by the underspecified, multi-hop nature of search queries and the multimodal, heterogeneous, and often conflicting nature of real-world web results, we introduce MERRIN (Multimodal Evidence Retrieval and Reasoning in Noisy Web Environments), a human-annotated benchmark for evaluating search-augmented agents. MERRIN measures AI agents&#x27; ability to identify relevant modalities, retrieve multimodal evidence, and perform multi-hop reasoning over noisy web sources. It differs from prior work in three important aspects: (1) using natural language queries without explicit modality cues, (2) incorporating underexplored modalities such as video and audio, and (3) requiring the retrieval of complex, often noisy or conflicting multimodal evidence during web search. We evaluate diverse search agents powered by ten models, including strong closed-source models (e.g., GPT-5.4-mini, Gemini 3/3.1 Flash/Pro) and open-weight models (Qwen3-4B/30B/235B), across three search settings (no search, native search, and agentic search). Our results show that MERRIN is highly challenging: the average accuracy across all agents is 22.3%, with the best-performing agent reaching only 40.1%. We further observe that while stronger agents like Gemini Deep Research achieve higher performance, gains are modest due to over-exploration; they take more steps and use more tools, but are often distracted by conflicting or partially relevant web content, leading to incorrect answers. Compared to humans, these agents consume more resources yet achieve lower accuracy, largely due to inefficient source selection and an overreliance on text modalities. These findings highlight the need for search agents capable of robust search and reasoning across diverse modalities in noisy web environments, making MERRIN a valuable testbed for evaluating such capabilities.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, benchmark, rag, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +3.3</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(benchmark, retrieval)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 3.3, title-match 1.5, title-terms 0.5, recent 0.6, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval, rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.8" data-title="hintbench: horizon-agent intrinsic non-attack trajectory benchmark">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#29</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13954" target="_blank" rel="noreferrer">HINTBench: Horizon-agent Intrinsic Non-attack Trajectory Benchmark</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.8</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.13954v1 Announce Type: cross Abstract: Existing agent-safety evaluation has focused mainly on externally induced risks. Yet agents may still enter unsafe trajectories under benign conditions. We study this complementary but underexplored setting through the lens of \emph{intrinsic} risk, where intrinsic failures remain latent, propagate across long-horizon execution, and eventually lead to high-consequence outcomes. To evaluate this setting, we introduce \emph{non-attack intrinsic risk auditing} and present \textbf{HINTBench}, a benchmark of 629 agent trajectories (523 risky, 106 safe; 33 steps on average) supporting three tasks: risk detection, risk-step localization, and intrinsic failure-type identification. Its annotations are organized under a unified five-constraint taxonomy. Experiments reveal a substantial capability gap: strong LLMs perform well on trajectory-level risk detection, but their performance drops to below 35 Strict-F1 on risk-step localization, while fine-grained failure diagnosis proves even harder. Existing guard models transfer poorly to this setting. These findings establish intrinsic risk auditing as an open challenge for agent safety.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, benchmark, evaluation, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +3.3</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(agent, benchmark)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 3.3, title-match 1.5, title-terms 0.5, recent 0.6, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.8" data-title="geoagentbench: a dynamic execution benchmark for tool-augmented agents in spatial analysis">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#30</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13888" target="_blank" rel="noreferrer">GeoAgentBench: A Dynamic Execution Benchmark for Tool-Augmented Agents in Spatial Analysis</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.8</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.13888v1 Announce Type: new Abstract: The integration of Large Language Models (LLMs) into Geographic Information Systems (GIS) marks a paradigm shift toward autonomous spatial analysis. However, evaluating these LLM-based agents remains challenging due to the complex, multi-step nature of geospatial workflows. Existing benchmarks primarily rely on static text or code matching, neglecting dynamic runtime feedback and the multimodal nature of spatial outputs. To address this gap, we introduce GeoAgentBench (GABench), a dynamic and interactive evaluation benchmark tailored for tool-augmented GIS agents. GABench provides a realistic execution sandbox integrating 117 atomic GIS tools, encompassing 53 typical spatial analysis tasks across 6 core GIS domains. Recognizing that precise parameter configuration is the primary determinant of execution success in dynamic GIS environments, we designed the Parameter Execution Accuracy (PEA) metric, which utilizes a &quot;Last-Attempt Alignment&quot; strategy to quantify the fidelity of implicit parameter inference. Complementing this, a Vision-Language Model (VLM) based verification is proposed to assess data-spatial accuracy and cartographic style adherence. Furthermore, to address the frequent task failures caused by parameter misalignments and runtime anomalies, we developed a novel agent architecture, Plan-and-React, that mimics expert cognitive workflows by decoupling global orchestration from step-wise reactive execution. Extensive experiments with seven representative LLMs demonstrate that the Plan-and-React paradigm significantly outperforms traditional frameworks, achieving the optimal balance between logical rigor and execution robustness, particularly in multi-step reasoning and error recovery. Our findings highlight current capability boundaries and establish a robust standard for assessing and advancing the next generation of autonomous GeoAI.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: Agents, Benchmarks, Cognition</span>
+                    <span class="chip">terms: agent, benchmark, cognitive, evaluation</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +3.3</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(agent, benchmark)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 3.3, title-match 1.5, title-terms 0.5, recent 0.6, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, evaluation)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: cognitive)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.6" data-title="codetracer: towards traceable agent states">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#31</div>
+                      <h2><a href="https://arxiv.org/abs/2604.11641" target="_blank" rel="noreferrer">CodeTracer: Towards Traceable Agent States</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.6</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.11641v3 Announce Type: replace-cross Abstract: Code agents are advancing rapidly, but debugging them is becoming increasingly difficult. As frameworks orchestrate parallel tool calls and multi-stage workflows over complex tasks, making the agent&#x27;s state transitions and error propagation hard to observe. In these runs, an early misstep can trap the agent in unproductive loops or even cascade into fundamental errors, forming hidden error chains that make it hard to tell when the agent goes off track and why. Existing agent tracing analyses either focus on simple interaction or rely on small-scale manual inspection, which limits their scalability and usefulness for real coding workflows. We present CodeTracer, a tracing architecture that parses heterogeneous run artifacts through evolving extractors, reconstructs the full state transition history as a hierarchical trace tree with persistent memory, and performs failure onset localization to pinpoint the failure origin and its downstream chain. To enable systematic evaluation, we construct CodeTraceBench from a large collection of executed trajectories generated by four widely used code agent frameworks on diverse code tasks (e.g., bug fixing, refactoring, and terminal interaction), with supervision at both the stage and step levels for failure localization. Experiments show that CodeTracer substantially outperforms direct prompting and lightweight baselines, and that replaying its diagnostic signals consistently recovers originally failed runs under matched budgets. Our code and data are publicly available.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Benchmarks</span>
+                    <span class="chip">terms: agent, evaluation, memory, persistent memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.1, title-match 0.75, title-terms 0.25, recent 0.6, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, persistent memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.45" data-title="the cognitive companion: a lightweight parallel monitoring architecture for detecting and recovering from reasoning degradation in llm agents">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#32</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13759" target="_blank" rel="noreferrer">The cognitive companion: a lightweight parallel monitoring architecture for detecting and recovering from reasoning degradation in LLM agents</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.45</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2604.13759v1 Announce Type: new Abstract: Large language model (LLM) agents on multi-step tasks suffer reasoning degradation, looping, drift, stuck states, at rates up to 30% on hard tasks. Current solutions include hard step limits (abrupt) or LLM-as-judge monitoring (10-15% overhead per step). This paper introduces the Cognitive Companion, a parallel monitoring architecture with two implementations: an LLM-based Companion and a novel zero-overhead Probe-based Companion. We report a three-batch feasibility study centered on Gemma 4 E4B, with an additional exploratory small-model analysis on Qwen 2.5 1.5B and Llama 3.2 1B. In our experiments, the LLM-based Companion reduced repetition on loop-prone tasks by 52-62% with approximately 11% overhead. The Probe-based Companion, trained on hidden states from layer 28, showed a mean effect size of +0.471 at zero measured inference overhead; its strongest probe result achieved cross-validated AUROC 0.840 on a small proxy-labeled dataset. A key empirical finding is that companion benefit appears task-type dependent: companions are most helpful on loop-prone and open-ended tasks, while effects are neutral or negative on more structured tasks. Our small-model experiments also suggest a possible scale boundary: companions did not improve the measured quality proxy on 1B-1.5B models, even when interventions fired. Overall, the paper should be read as a feasibility study rather than a definitive validation. The results provide encouraging evidence that sub-token monitoring may be useful, identify task-type sensitivity as a practical design constraint, and motivate selective companion activation as a promising direction for future work.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: Agents, Retrieval, Cognition</span>
+                    <span class="chip">terms: agent, cognitive, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +3.2</li>
+                          <li>Title keyword bonus: +1.5</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 3.2, title-match 1.5, title-terms 0.25, recent 0.6, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: cognitive)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.4" data-title="hydra: unifying document retrieval and generation in a single vision-language model">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#33</div>
+                      <h2><a href="https://arxiv.org/abs/2603.28554" target="_blank" rel="noreferrer">Hydra: Unifying Document Retrieval and Generation in a Single Vision-Language Model</a></h2>
+                      <div class="meta">arXiv cs.AI RSS · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.4</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">arXiv:2603.28554v2 Announce Type: replace-cross Abstract: Visual document understanding typically requires separate retrieval and generation models, doubling memory and system complexity. We present Hydra, a dual-head approach that provides both ColBERT-style late-interaction retrieval and autoregressive generation from a single vision-language model (VLM). A single LoRA adapter, trained only for retrieval, is toggled at inference: enabling it produces multi-vector embeddings; disabling it recovers the base model&#x27;s generation quality -- byte-identical outputs in 100% of 10,500 greedy and stochastic samples, with max delta-ANLS = 0.0044 across 15,301 samples on four VQA benchmarks (three informative; ChartQA is near-zero for both models under greedy decoding) when compared against an independent base-model pipeline. We identify three engineering requirements (attention-mode restoration, lm_head preservation, KV-cache-aware decoding) whose omission silently breaks generation despite correct weight recovery. On ViDoRe V1, Hydra (4B) is within 1 percentage point of a controlled single-head baseline in a single training run, with higher aggregate scores on V2 and V3 that are concentrated on a subset of tasks; multi-seed experiments are needed to confirm these trends. The single-model design cuts peak GPU memory from 17.9 GB (two-model baseline) to 9.2 GB -- a 48% reduction, though adapter switching introduces throughput overhead under concurrent serving loads. An ablation shows that GritLM-style joint training provides no benefit within the LoRA-based (r=16) training regime. A proof-of-concept extension to Qwen2.5-Omni-3B demonstrates that the mechanism generalizes to audio retrieval and video embedding, with speech generation.</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: benchmark, memory, retrieval</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +3.9</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(retrieval)</span></li>
+                          <li>Recency bonus: +0.6</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 3.9, title-match 0.75, title-terms 0.25, recent 0.6, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: retrieval)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.15" data-title="escaping the context bottleneck: active context curation for llm agents via reinforcement learning">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#34</div>
+                      <h2><a href="https://arxiv.org/abs/2604.11462" target="_blank" rel="noreferrer">Escaping the Context Bottleneck: Active Context Curation for LLM Agents via Reinforcement Learning</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.15</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Large Language Models (LLMs) struggle with long-horizon tasks due to the &quot;context bottleneck&quot; and the &quot;lost-in-the-middle&quot; phenomenon, where accumulated noise from verbose environments degrades reasoning over multi-turn interactions. To address this issue, we introduce a symbiotic framework that decouples context management from task execution. Our architecture pairs a lightweight, specialized policy model, ContextCurator, with a powerful frozen foundation model, TaskExecutor. Trained via reinforcement learning, ContextCurator actively reduces information entropy in the working memory . It aggressively prunes environmental noise while preserving reasoning anchors, that is, sparse data points that are critical for future deductions. On WebArena, our framework improves the success rate of Gemini-3.0-flash from 36.4% to 41.2% while reducing token consumption by 8.8% (from 47.4K to 43.3K). On DeepSearch, it achieves a 57.1% success rate, compared with 53.9%, while reducing token consumption by a factor of 8. Remarkably, a 7B ContextCurator matches the context management performance of GPT-4o, providing a scalable and computationally efficient paradigm for autonomous long-horizon agents . △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Cognition</span>
+                    <span class="chip">terms: agent, memory, working memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.0</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(agent, context)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.0, title-match 0.75, title-terms 0.5, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: working memory)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.15" data-title="agentcomm: semantic communication for embodied agents">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#35</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13558" target="_blank" rel="noreferrer">AgentComm: Semantic Communication for Embodied Agents</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 15 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.15</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">The increasing deployment of agentic artificial intelligence (AI) systems has intensified the demand for efficient agent to agent communication, particularly over bandwidth limited wireless links. In embodied AI applications, agents must exchange task related information under strict latency and reliability constraints. Existing agent communication methods primarily focus on connectivity and protocol efficiency, but lack effective mechanisms to reduce physical layer transmission overhead while preserving task semantics.To address this challenge, this paper proposes a semantic agent communication framework that reduces communication overhead while maintaining task performance and shared understanding among agents . An LLM based semantic processor is first introduced to reorganize and condense agent generated messages by extracting task relevant semantic content. To cope with information loss introduced by aggressive message reduction, an importance-aware semantic transmission strategy is developed, which adaptively protects semantic components according to their task importance. Furthermore, a task specific knowledge base is incorporated as long term semantic memory to support recurring tasks and further reduce bandwidth consumption with minimal performance degradation. Experimental results and ablation studies demonstrate that the proposed framework achieves nearly 50% bandwidth reduction with negligible loss in task completion performance compared to conventional transmission schemes. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Cognition</span>
+                    <span class="chip">terms: agent, agentic, memory, semantic memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.0</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.5 <span class='muted'>(agent, semantic)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.0, title-match 0.75, title-terms 0.5, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Cognition</strong>: +1.0 <span class='muted'>(terms: semantic memory)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.0" data-title="when less latent leads to better relay: information-preserving compression for latent multi- agent llm collaboration">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#36</div>
+                      <h2><a href="https://arxiv.org/abs/2604.13349" target="_blank" rel="noreferrer">When Less Latent Leads to Better Relay: Information-Preserving Compression for Latent Multi- Agent LLM Collaboration</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 14 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Communication in Large Language Model (LLM)-based multi- agent systems is moving beyond discrete tokens to preserve richer context. Recent work such as LatentMAS enables agents to exchange latent messages through full key-value (KV) caches. However, full KV relay incurs high memory and communication cost. We adapt eviction-style KV compression to this setting and introduce Orthogonal Backfill (OBF) to mitigate information loss from hard eviction. OBF injects a low-rank orthogonal residual from discarded KV states into the retained KV states. We evaluate proposed method against full KV relay on nine standard benchmarks spanning mathematical reasoning, coding, and knowledge-intensive QA. It achieves performance comparable to full KV relay while reducing communication cost by 79.8%--89.4%. OBF further improves the performance and achieves the best results on 7 of the 9 benchmarks. This suggests that more information does not necessarily lead to better communication; preserving the most useful information matters more. Our codebase is publicly available on https://github.com/markli404/When-Less-Latent-Leads-to-Better-Relay. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Benchmarks</span>
+                    <span class="chip">terms: agent, benchmark, memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.1, title-match 0.75, title-terms 0.25, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.0" data-title="transferable expertise for autonomous agents via real-world case-based learning">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#37</div>
+                      <h2><a href="https://arxiv.org/abs/2604.12717" target="_blank" rel="noreferrer">Transferable Expertise for Autonomous Agents via Real-World Case-Based Learning</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 14 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">LLM-based autonomous agents perform well on general reasoning tasks but still struggle to reliably use task structure, key constraints, and prior experience in complex real-world settings. We propose a case-based learning framework that converts experience from past tasks into reusable knowledge assets, allowing agents to transfer prior case experience to new tasks and perform more structured analysis. Unlike methods based mainly on pretrained knowledge or static prompts, our framework emphasizes extracting and reusing task-relevant knowledge, analytical prompts, and operational skills from real cases. We evaluate the method on a unified benchmark of six complex task categories and compare it with Zero-Shot, Few-Shot, Checklist Prompt, and Rule Memory baselines. Results show that our method achieves consistently strong performance across all tasks and matches or outperforms the best baseline in every case, with especially clear gains on more complex tasks. Further analysis shows that the advantage of case-based learning increases with task complexity, and that practical knowledge acquired by one agent can be reused by others. These findings suggest that case-based learning offers a promising path for building professional agents for real-world work. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Benchmarks</span>
+                    <span class="chip">terms: agent, benchmark, memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.1, title-match 0.75, title-terms 0.25, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.0" data-title="trajonco: a multi- agent framework for temporal reasoning over longitudinal ehr for multi-cancer early detection">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#38</div>
+                      <h2><a href="https://arxiv.org/abs/2604.10386" target="_blank" rel="noreferrer">TrajOnco: a multi- agent framework for temporal reasoning over longitudinal EHR for multi-cancer early detection</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 11 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Accurate estimation of cancer risk from longitudinal electronic health records (EHRs) could support earlier detection and improved care, but modeling such complex patient trajectories remains challenging. We present TrajOnco, a training-free, multi- agent large language model (LLM) framework designed for scalable multi-cancer early detection. Using a chain-of- agents architecture with long-term memory , TrajOnco performs temporal reasoning over sequential clinical events to generate patient-level summaries, evidence-linked rationales, and predicted risk scores. We evaluated TrajOnco on de-identified Truveta EHR data across 15 cancer types using matched case-control cohorts, predicting risk of cancer diagnosis at 1 year. In zero-shot evaluation, TrajOnco achieved AUROCs of 0.64-0.80, performing comparably to supervised machine learning in a lung cancer benchmark while demonstrating better temporal reasoning than single- agent LLMs. The multi- agent design also enabled effective temporal reasoning with smaller-capacity models such as GPT-4.1-mini. The fidelity of TrajOnco&#x27;s output was validated through human evaluation. Furthermore, TrajOnco&#x27;s interpretable reasoning outputs can be aggregated to reveal population-level risk patterns that align with established clinical knowledge. These findings highlight the potential of multi- agent LLMs to execute interpretable temporal reasoning over longitudinal EHRs, advancing both scalable multi-cancer early detection and clinical insight generation. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Benchmarks</span>
+                    <span class="chip">terms: agent, benchmark, evaluation, long-term memory, memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(agent)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.1, title-match 0.75, title-terms 0.25, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory, long-term memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.0" data-title="self-evolving llm memory extraction across heterogeneous tasks">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#39</div>
+                      <h2><a href="https://arxiv.org/abs/2604.11610" target="_blank" rel="noreferrer">Self-Evolving LLM Memory Extraction Across Heterogeneous Tasks</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">As LLM-based assistants become persistent and personalized, they must extract and retain useful information from past conversations as memory . However, the types of information worth remembering vary considerably across tasks. We formalize the \textit{heterogeneous memory extraction} task and introduce \textbf{BEHEMOTH}, a benchmark that repurposes 18 existing datasets spanning personalization, problem-solving, and agentic tasks, using a downstream utility-driven metric for systematic evaluation. Our empirical analysis confirms that no single static extraction prompt dominates across all task categories, and that existing self-evolving prompt optimization frameworks, originally designed for homogeneous distributions, degrade when training tasks are heterogeneous. To address this, we propose \textbf{CluE}, a cluster-based self-evolving strategy that groups training examples into clusters by extraction scenarios, analyzes each cluster independently, and synthesizes cross-cluster insights to update the extraction prompt. Experiments on BEHEMOTH show that CluE generalizes effectively across heterogeneous tasks ($+$9.04\% relative gain), consistently outperforming prior self-evolving frameworks. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Benchmarks</span>
+                    <span class="chip">terms: agent, agentic, benchmark, evaluation, memory</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +4.1</li>
+                          <li>Title keyword bonus: +0.75</li>
+                          <li>Title bonus terms: +0.25 <span class='muted'>(memory)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 4.1, title-match 0.75, title-terms 0.25, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent, agentic)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: benchmark, evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="7.0" data-title="nimbusguard: a novel framework for proactive kubernetes autoscaling using deep q-networks">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#40</div>
+                      <h2><a href="https://arxiv.org/abs/2604.11017" target="_blank" rel="noreferrer">NimbusGuard: A Novel Framework for Proactive Kubernetes Autoscaling Using Deep Q-Networks</a></h2>
+                      <div class="meta">arXiv Agent Memory Search · Submitted 13 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">7.0</div>
+                      <div class="score-label">score · Strong Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Cloud native architecture is about building and running scalable microservice applications to take full advantage of the cloud environments. Managed Kubernetes is the powerhouse orchestrating cloud native applications with elastic scaling. However, traditional Kubernetes autoscalers are reactive, meaning the scaling controllers adjust resources only after they detect demand within the cluster and do not incorporate any predictive measures. This can lead to either over-provisioning and increased costs or under-provisioning and performance degradation. We propose NimbusGuard, an open-source, Kubernetes-based autoscaling system that leverages a deep reinforcement learning agent to provide proactive autoscaling. The agents perception is augmented by a Long Short-Term Memory model that forecasts future workload patterns. The evaluations were conducted by comparing NimbusGuard against the built-in scaling controllers, such as Horizontal Pod Autoscaler, and the event-driven autoscaler KEDA. The experimental results demonstrate how NimbusGuard&#x27;s proactive framework translates into superior performance and cost efficiency compared to existing reactive methods. △ Less</p>
+
+                  
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#ea580c">Strong Read</span>
+                    
+                    <span class="chip">keywords: AI memory, Agents, Retrieval, Benchmarks</span>
+                    <span class="chip">terms: agent, evaluation, memory, rag</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +1.75</li>
+                          <li>Keyword matches: +5.1</li>
+                          <li>Title keyword bonus: +0.0</li>
+                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.15</li>
+                          <li>Read tier: Strong Read <span class='muted'>(Very relevant and likely worth focused reading)</span></li>
+                          
+                          
+                          
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 1.75, keywords 5.1, summary 0.15, tier Strong Read</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>AI memory</strong>: +1.8 <span class='muted'>(terms: memory)</span></li><li><strong>Agents</strong>: +1.2 <span class='muted'>(terms: agent)</span></li><li><strong>Retrieval</strong>: +1.0 <span class='muted'>(terms: rag)</span></li><li><strong>Benchmarks</strong>: +1.1 <span class='muted'>(terms: evaluation)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article>
+    </section>
+  </main>
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const articleList = document.getElementById('articleList');
+
+    function getCards() {
+      return Array.from(articleList.querySelectorAll('.card'));
+    }
+
+    function applyFilterAndSort() {
+      const query = searchInput.value.toLowerCase().trim();
+      const sortMode = sortSelect.value;
+      const cards = getCards();
+
+      cards.forEach((card) => {
+        const text = card.textContent.toLowerCase();
+        card.classList.toggle('hidden', query && !text.includes(query));
+      });
+
+      cards.sort((a, b) => {
+        if (sortMode === 'title') {
+          return a.dataset.title.localeCompare(b.dataset.title);
+        }
+        return Number(b.dataset.score) - Number(a.dataset.score);
+      });
+
+      for (const card of cards) {
+        articleList.appendChild(card);
+      }
+    }
+
+    searchInput.addEventListener('input', applyFilterAndSort);
+    sortSelect.addEventListener('change', applyFilterAndSort);
+  </script>
+</body>
+</html>
