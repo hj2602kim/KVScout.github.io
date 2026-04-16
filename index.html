@@ -113,7 +113,7 @@
   <main>
     <section class="hero">
       <h1>AI/Memory Reading List</h1>
-      <p>Generated at 2026-04-16 23:57:44 from 16 configured sources. This is a single-file HTML view, so you can open it directly in a browser without running a server.</p>
+      <p>Generated at 2026-04-17 00:03:32 from 16 configured sources. This is a single-file HTML view, so you can open it directly in a browser without running a server.</p>
       <p><strong>How scoring works:</strong> source priority + keyword matches + title bonuses + recency + summary richness. You can control those weights in <code>config/ai_memory_crawler_config.json</code> or via CLI flags.</p>
       <p><strong>Read tiers:</strong> numeric scores are also translated into five human-friendly buckets like <code>Must Read</code> and <code>Skim</code>.</p>
     </section>
@@ -133,8 +133,8 @@
         </ul>
       <h3>Read tiers</h3>
       <ul><li><strong>Must Read</strong>: score ≥ 8.5 <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li><li><strong>Strong Read</strong>: score ≥ 6.5 <span class='muted'>(Relevant to memory/offloading optimization)</span></li><li><strong>Worth Reading</strong>: score ≥ 4.5 <span class='muted'>(Some useful ideas)</span></li><li><strong>Skim</strong>: score ≥ 2.5 <span class='muted'>(Quick scan only)</span></li><li><strong>Low Priority</strong>: score ≥ 0.0 <span class='muted'>(Low relevance)</span></li></ul>
-      <p class="muted">Optional local LLM rerank: disabled. The default view uses the built-in rule-based score and tier.</p>
-      <p class="muted">Research profile: My Research Profile. When present, the LLM can also return a separate research-match score and AI recommendation score.</p>
+      <p class="muted">Optional local LLM rerank: enabled. Configured model: mistralai/Devstral-Small-2-24B-Instruct-2512</p>
+      <p class="muted">Research profile: Memory-Centric LLM Systems &amp; Offloading Research. When present, the LLM can also return a separate research-match score and AI recommendation score.</p>
     </section>
 
     <section class="panel">
@@ -149,7 +149,7 @@
     </section>
 
     <section id="articleList">
-      <article class="card" data-score="20.2" data-title="trace: unlocking effective cxl bandwidth via lossless compression and precision scaling">
+      <article class="card" data-score="11.95" data-title="trace: unlocking effective cxl bandwidth via lossless compression and precision scaling">
                   <div class="card-head">
                     <div>
                       <div class="rank">#1</div>
@@ -157,18 +157,18 @@
                       <div class="meta">arXiv KV Cache Search · Submitted 29 January, 2026; v1 submitted 3 September, 2025; originally announced September 2025. · html</div>
                     </div>
                     <div class="score-box">
-                      <div class="score">20.2</div>
+                      <div class="score">11.95</div>
                       <div class="score-label">score · Must Read</div>
                     </div>
                   </div>
 
                   <p class="summary">LLM inference is increasingly limited by memory bandwidth, and the bottleneck worsens at long context as the KV cache grows. CXL memory adds capacity to offload weights and KV , but its link and device-side DDR bandwidth are far below HBM, so decoding stalls once traffic shifts to the CXL tier. Many CXL controllers are starting to add generic \emph{lossless} compression, yet applying commodity codecs directly to standard word-major LLM tensors is largely ineffective, especially for token-major KV streams. We propose TRACE (\textbf{T}raffic-\textbf{R}educed \textbf{A}rchitecture for \textbf{C}ompression and \textbf{E}lasticity), which preserves the unmodified CXL.mem interface but changes the device-internal representation. It stores tensors in a channel-major, disaggregated bit-plane layout, and applies a KV -specific transform before compression, converting mixed-field words into low-entropy plane streams that commodity codecs can compress. The same substrate enables precision-proportional fetch by reading only the required bit-planes. Across public LLMs, TRACE reduces BF16 weight footprint by 25.2\% and BF16 KV footprint by 46.9\% losslessly, with per-layer KV ratios peaking at 2.69$\times$. In trace-driven system modeling, once KV spills to CXL, GPT-OSS-120B-MXFP4 improves throughput at 128k tokens from 16.28 to 68.99 tok/s (4.24$\times$). DRAMSim3 shows up to 40.3\% lower DRAM access energy under plane-aligned fetch. A 7\,nm SystemVerilog implementation sustains 256\,GB/s device bandwidth. Relative to a CXL controller with generic inline lossless compression, TRACE only adds 7.2\% area, 4.7\% power, and 6.0\% load-to-use latency at 2\,GHz and 0.7\,V. △ Less</p>
 
-                  
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>9.1</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>9.2</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>9.0</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.5</strong></span> <span class='detail-score'>기술깊이: <strong>8.5</strong></span> <span class='detail-score'>참신성: <strong>8.0</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> Directly addresses KV cache offloading, CXL memory optimization, and compression for LLM inference, with real-system validation and quantitative benchmarks.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Aligns closely with KV cache optimization, CXL memory, compression, and data movement optimization across memory tiers.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> Highly relevant to AI systems optimization, particularly for memory bandwidth and offloading challenges in LLM inference.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> TRACE는 CXL 메모리의 대역폭을 손실 없는 압축과 정밀도 조절을 통해 효율적으로 활용하는 기술을 제안합니다. LLM 추론에서 KV 캐시가 증가할 때 발생하는 메모리 대역폭 병목을 해결하기 위해, 채널-메이저 비트-플레인 레이아웃과 KV 전용 변환을 적용하여 압축 효율을 높입니다. 공용 LLM에서 가중치와 KV 캐시의 저장 공간을 각각 25.2%와 46.9% 줄이는 것을 보여주며, 128k 토큰에서 처리량을 4.24배 향상시킵니다. DRAMSim3을 통해 40.3%의 DRAM 접근 에너지 절감과 256 GB/s의 장치 대역폭을 달성합니다.</div></div>
 
                   <div class="chips">
                     <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
+                    <span class="chip match-chip">research match: 9.2/10</span>
                     <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving, Data Movement &amp; Pipeline, Compression &amp; Quantization</span>
                     <span class="chip">terms: compression, CXL, CXL memory, DRAM, HBM, KV cache, LLM inference, memory bandwidth</span>
                   </div>
@@ -186,11 +186,11 @@
                           <li>Recency bonus: +0.0</li>
                           <li>Summary bonus: +0.2</li>
                           <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
+                          <li><span class='bd-label'>LLM score</span> 9.1/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — Directly addresses KV cache offloading, CXL memory optimization, and compression for LLM inference, with real-system validation and quantitative benchmarks.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 9.0/10 <span class='muted'> — Highly relevant to AI systems optimization, particularly for memory bandwidth and offloading challenges in LLM inference.</span></li>
+                          <li><span class='bd-label'>Research match</span> 9.2/10 <span class='match-label'>High Match</span><span class='muted'> — Aligns closely with KV cache optimization, CXL memory, compression, and data movement optimization across memory tiers.</span></li>
                         </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 15.6, title-match 1.8, title-terms 0.6, summary 0.2, tier Must Read</p>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 15.6, title-match 1.8, title-terms 0.6, summary 0.2, tier Must Read, llm 9.1, ai-rec 9.0, research-match 9.2, total 11.95</p>
                       </div>
                       <div>
                         <h3>Keyword contributions</h3>
@@ -198,7 +198,7 @@
                       </div>
                     </div>
                   </details>
-                </article><article class="card" data-score="19.9" data-title="cxl-speckv: a disaggregated fpga speculative kv - cache for datacenter llm serving">
+                </article><article class="card" data-score="11.88" data-title="cxl-speckv: a disaggregated fpga speculative kv - cache for datacenter llm serving">
                   <div class="card-head">
                     <div>
                       <div class="rank">#2</div>
@@ -206,18 +206,18 @@
                       <div class="meta">arXiv KV Cache Search · Submitted 11 December, 2025; originally announced December 2025. · html</div>
                     </div>
                     <div class="score-box">
-                      <div class="score">19.9</div>
+                      <div class="score">11.88</div>
                       <div class="score-label">score · Must Read</div>
                     </div>
                   </div>
 
                   <p class="summary">Large Language Models (LLMs) have revolutionized natural language processing tasks, but their deployment in datacenter environments faces significant challenges due to the massive memory requirements of key - value ( KV ) caches . During the autoregressive decoding process, KV caches consume substantial GPU memory, limiting batch sizes and overall system throughput. To address these challenges, we propose \textbf{CXL-SpecKV}, a novel disaggregated KV - cache architecture that leverages Compute Express Link (CXL) interconnects and FPGA accelerators to enable efficient speculative execution and memory disaggregation. Our approach introduces three key innovations: (i) a CXL-based memory disaggregation framework that offloads KV - caches to remote FPGA memory with low latency, (ii) a speculative KV - cache prefetching mechanism that predicts and preloads future tokens&#x27; cache entries, and (iii) an FPGA-accelerated KV - cache compression and decompression engine that reduces memory bandwidth requirements by up to 4$\times$. When evaluated on state-of-the-art LLM models, CXL-SpecKV achieves up to 3.2$\times$ higher throughput compared to GPU-only baselines, while reducing memory costs by 2.8$\times$ and maintaining accuracy. Our system demonstrates that intelligent memory disaggregation combined with speculative execution can effectively address the memory wall challenge in large-scale LLM serving. Our code implementation has been open-sourced at https://github.com/FastLM/CXL-SpecKV. △ Less</p>
 
-                  
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>9.2</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.5</strong></span> <span class='detail-score'>참신성: <strong>8.0</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> Directly addresses KV cache offloading, CXL memory, and speculative execution with real-system validation and open-source implementation.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Covers KV cache offloading, CXL memory, compression, and speculative execution, directly addressing the research profile&#x27;s focus areas.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> Proposes novel disaggregated KV cache architecture with FPGA acceleration and compression, aligning with current AI system optimization trends.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> 이 논문은 CXL-SpecKV라는 새로운 분산형 KV 캐시 아키텍처를 제안합니다. FPGA 가속기와 CXL 인터커넥트를 활용하여 speculative execution과 메모리 분산을 구현합니다. KV 캐시의 원격 메모리 오프로딩, 사전 로딩, 그리고 FPGA 기반 압축/해제 엔진을 통해 메모리 대역폭 요구를 4배 줄이고, GPU-only 기준에 비해 3.2배 높은 처리량을 달성합니다. 오픈소스 구현이 제공되어 실용성을 높입니다.</div></div>
 
                   <div class="chips">
                     <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
+                    <span class="chip match-chip">research match: 9.2/10</span>
                     <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving, Data Movement &amp; Pipeline, Compression &amp; Quantization</span>
                     <span class="chip">terms: cache compression, compression, CXL, KV cache, LLM serving, memory bandwidth</span>
                   </div>
@@ -235,11 +235,11 @@
                           <li>Recency bonus: +0.0</li>
                           <li>Summary bonus: +0.2</li>
                           <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — Directly addresses KV cache offloading, CXL memory, and speculative execution with real-system validation and open-source implementation.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — Proposes novel disaggregated KV cache architecture with FPGA acceleration and compression, aligning with current AI system optimization trends.</span></li>
+                          <li><span class='bd-label'>Research match</span> 9.2/10 <span class='match-label'>High Match</span><span class='muted'> — Covers KV cache offloading, CXL memory, compression, and speculative execution, directly addressing the research profile&#x27;s focus areas.</span></li>
                         </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 15.6, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read</p>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 15.6, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 9.2, total 11.88</p>
                       </div>
                       <div>
                         <h3>Keyword contributions</h3>
@@ -247,647 +247,10 @@
                       </div>
                     </div>
                   </details>
-                </article><article class="card" data-score="16.9" data-title="sparseserve: unlocking parallelism for dynamic sparse attention in long-context llm serving">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#3</div>
-                      <h2><a href="https://arxiv.org/abs/2509.24626" target="_blank" rel="noreferrer">SparseServe: Unlocking Parallelism for Dynamic Sparse Attention in Long-Context LLM Serving</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 29 September, 2025; originally announced September 2025. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">16.9</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">Serving long-context LLMs is costly because attention computation grows linearly with context length. Dynamic sparse attention algorithms (DSAs) mitigate this by attending only to the key - value ( KV ) cache of critical tokens. However, with DSAs, the main performance bottleneck shifts from HBM bandwidth to HBM capacity: KV caches for unselected tokens must remain in HBM for low-latency decoding, constraining parallel batch size and stalling further throughput gains. Offloading these underutilized KV caches to DRAM could free HBM capacity, allowing larger parallel batch sizes. Yet, achieving such hierarchical HBM-DRAM storage raises new challenges, including fragmented KV cache access, HBM cache contention, and high HBM demands of hybrid batching, that remain unresolved in prior work. This paper proposes SparseServe, an LLM serving system that unlocks the parallel potential of DSAs through efficient hierarchical HBM-DRAM management. SparseServe introduces three key innovations to address the challenges mentioned above: (1) fragmentation-aware KV cache transfer, which accelerates HBM-DRAM data movement through GPU-direct loading (FlashH2D) and CPU-assisted saving (FlashD2H); (2) working-set-aware batch size control that adjusts batch sizes based on real-time working set estimation to minimize HBM cache thrashing; (3) layer-segmented prefill that bounds HBM use during prefill to a single layer, enabling efficient execution even for long prompts. Extensive experimental results demonstrate that SparseServe achieves up to 9.26x lower mean time-to-first-token (TTFT) latency and up to 3.14x higher token generation throughput compared to state-of-the-art LLM serving systems. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving, Data Movement &amp; Pipeline</span>
-                    <span class="chip">terms: data movement, DRAM, HBM, KV cache, LLM serving</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +13.8</li>
-                          <li>Title keyword bonus: +0.9</li>
-                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 13.8, title-match 0.9, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>Memory Hierarchy</strong>: +3.6 <span class='muted'>(terms: HBM, DRAM)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM serving)</span></li><li><strong>Data Movement &amp; Pipeline</strong>: +3.0 <span class='muted'>(terms: data movement)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="15.7" data-title="architecture-aware llm inference optimization on amd instinct gpus: a comprehensive benchmark and deployment study">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#4</div>
-                      <h2><a href="https://arxiv.org/abs/2603.10031" target="_blank" rel="noreferrer">Architecture-Aware LLM Inference Optimization on AMD Instinct GPUs: A Comprehensive Benchmark and Deployment Study</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 27 February, 2026; originally announced March 2026. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">15.7</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">We present a cross-architecture evaluation of production LLM inference on AMD Instinct MI325X GPUs, benchmarking four models spanning 235B to 1 trillion parameters across three architectural families (MoE+MLA, Dense+GQA, MoE+GQA) on an 8-GPU cluster with 2TB aggregate HBM3e using vLLM v0.14.1. Our results demonstrate that architecture-aware optimization is essential: MLA models require block size 1 and cannot use KV cache offloading , while GQA models benefit from both. The AMD AITER runtime is required for competitive MLA inference throughput and must be selectively disabled for architectures with incompatible attention head configurations. A controlled AITER ablation on Llama-3.1-405B (n=5 per condition) reveals a modest 3-5% throughput benefit at high concurrency but 2-16x higher measurement variability, confirming that AITER&#x27;s large speedups target MoE/MLA kernels specifically. Under text-only workloads, Llama-405B and DeepSeek V3.2 achieve comparable peak throughput (15,944 and 15,343 tok/s) despite an order-of-magnitude difference in active parameters. Under vision workloads, Qwen3-VL-235B reaches 47,873 tok/s, 6.5x higher than Kimi-K2.5 (7,327 tok/s). Active parameter count per token is associated with inference throughput, though confounded by differences in quantization, AITER acceleration, and tensor parallelism. All four models exhibit a common throughput saturation point consistent with a memory-bandwidth bottleneck (~500 concurrent for short sequences, ~100-200 for longer sequences). All models maintain 100% HTTP-level success rates through 1,000 concurrent users, processing 18.9 million tokens across 17,406 requests without failures. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving, Compression &amp; Quantization</span>
-                    <span class="chip">terms: HBM, KV cache, KV cache offloading, LLM inference, quantization, vLLM</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +12.6</li>
-                          <li>Title keyword bonus: +0.9</li>
-                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 12.6, title-match 0.9, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache, KV cache offloading)</span></li><li><strong>Memory Hierarchy</strong>: +3.6 <span class='muted'>(terms: HBM)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: vLLM, LLM inference)</span></li><li><strong>Compression &amp; Quantization</strong>: +1.8 <span class='muted'>(terms: quantization)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="15.4" data-title="scoutattention: efficient kv cache offloading via layer-ahead cpu pre-computation for llm inference">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#5</div>
-                      <h2><a href="https://arxiv.org/abs/2603.27138" target="_blank" rel="noreferrer">ScoutAttention: Efficient KV Cache Offloading via Layer-Ahead CPU Pre-computation for LLM Inference</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 28 March, 2026; originally announced March 2026. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">15.4</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">Large language models encounter critical GPU memory capacity constraints during long-context inference, where KV cache memory consumption severely limits decode batch sizes. While existing research has explored offloading KV cache to DRAM, these approaches either demand frequent GPU-CPU data transfers or impose extensive CPU computation requirements, resulting in poor GPU utilization as the system waits for I/O operations or CPU processing to complete. We propose ScoutAttention, a novel KV cache offloading framework that accelerates LLM inference through collaborative GPU-CPU attention computation. To prevent CPU computation from bottlenecking the system, ScoutAttention introduces GPU-CPU collaborative block-wise sparse attention that significantly reduces CPU load. Unlike conventional parallel computing approaches, our framework features a novel layer-ahead CPU pre-computation algorithm, enabling the CPU to initiate attention computation one layer in advance, complemented by asynchronous periodic recall mechanisms to maintain minimal CPU compute load. Experimental results demonstrate that ScoutAttention maintains accuracy within 2.4% of baseline while achieving 2.1x speedup compared to existing offloading methods. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving</span>
-                    <span class="chip">terms: DRAM, KV cache, KV cache offloading, LLM inference</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +10.8</li>
-                          <li>Title keyword bonus: +1.8</li>
-                          <li>Title bonus terms: +0.6 <span class='muted'>(KV cache, offloading)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 10.8, title-match 1.8, title-terms 0.6, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache, KV cache offloading)</span></li><li><strong>Memory Hierarchy</strong>: +3.6 <span class='muted'>(terms: DRAM)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="15.4" data-title="hillinfer: efficient long-context llm inference on the edge with hierarchical kv eviction using smartssd">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#6</div>
-                      <h2><a href="https://arxiv.org/abs/2602.18750" target="_blank" rel="noreferrer">HillInfer: Efficient Long-Context LLM Inference on the Edge with Hierarchical KV Eviction using SmartSSD</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 25 March, 2026; v1 submitted 21 February, 2026; originally announced February 2026. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">15.4</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">Deploying Large Language Models (LLMs) on memory-constrained AI Personal Computers (AIPCs) enables low-latency, privacy-preserving inference, but long-context generation is fundamentally bottlenecked by the linearly growing Key - Value ( KV ) cache . While dynamic KV eviction mitigates this memory wall, existing offloading strategies either trigger crippling PCIe I/O bottlenecks on standard SSDs or suffer from FPGA resource exhaustion by forcing compute-intensive exact attention on a single, weak Computational Storage Drive (CSD). In this paper, we propose HillInfer, a CSD-assisted KV eviction framework that introduces a paradigm shift: offloading strictly lightweight token importance evaluation to a single CSD (e.g., SmartSSD) on AIPCs. To fully capitalize on this lightweight offloading strategy, HillInfer orchestrates a Hierarchical KV Cache Manager (HKM) that leverages temporal locality and dynamic token hit rates to physically partition cache pools, thereby eliminating cross-device I/O thrashing. Additionally, we design an Adaptive Prefetch-based Pipeline (APP) that adaptively balances the evaluation workload between the host CPU and the SmartSSD, effectively masking the heterogeneous straggler effect. Finally, we introduce a CSD-based Evaluation Configuration (CEC) to enable resource-efficient near-data processing on the FPGA. Extensive experiments on a commodity AIPC demonstrate that HillInfer achieves up to an 8.56$\times$ speedup over state-of-the-art baselines, delivering low-latency, I/O-efficient long-context inference without sacrificing model accuracy. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, Offloading Systems, LLM Inference &amp; Serving</span>
-                    <span class="chip">terms: KV cache, LLM inference, SmartSSD</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +11.4</li>
-                          <li>Title keyword bonus: +1.8</li>
-                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 11.4, title-match 1.8, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>Offloading Systems</strong>: +4.2 <span class='muted'>(terms: SmartSSD)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="14.5" data-title="lmcache: an efficient kv cache layer for enterprise-scale llm inference">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#7</div>
-                      <h2><a href="https://arxiv.org/abs/2510.09665" target="_blank" rel="noreferrer">LMCache: An Efficient KV Cache Layer for Enterprise-Scale LLM Inference</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 4 December, 2025; v1 submitted 7 October, 2025; originally announced October 2025. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">14.5</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">KV cache has traditionally been stored in GPU memory to accelerate the decoding phase of large language model (LLM) inference. However, it is increasingly necessary to move KV caches outside GPU devices, to enable cache reuse across different queries and inference engines. Our real-world usage statistics confirm this trend: over time, the total KV cache stored by users has grown rapidly, far exceeding the capacity of GPU memory. Despite this need, there lacks an efficient solution for offloading and transferring KV caches . We present LMCACHE, the first and so far the most efficient open-source KV caching solution, which extracts and stores KV caches generated by modern LLM engines (vLLM and SGLang) out of the GPU memory and shares them across engines and queries. LMCACHE supports both cache offloading (prefix reuse across queries) and prefill-decode (PD) disaggregation (cross-engine/GPU cache transfer). LMCACHE&#x27;s high performance and wide adoption stem from the following contributions: (1) highly optimized KV cache data movement powered by batched data movement operations, compute and I/O pipelining; (2) a modular KV cache connector component, decoupling LMCACHE from the rapid evolution of inference engines; (3) a first-class control API for flexible cache orchestration across GPU, CPU, storage, and network layers. Our evaluation shows that combining LMCACHE with vLLM achieves up to 15x improvement in throughput across workloads such as multi-round question answering and document analysis. Large-scale adoption of LMCACHE in enterprise settings provides us valuable insights, for example, fetching KV cache from remote storage has unsurprisingly benefits to prefill delay, and that context truncation, which is a widely applied technique in industry, can greatly reduce prefix cache hit ratio by half. The source code of LMCACHE is at: https://github.com/LMCache/LMCache. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Data Movement &amp; Pipeline</span>
-                    <span class="chip">terms: data movement, KV cache, LLM inference, LMCache, vLLM</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +10.2</li>
-                          <li>Title keyword bonus: +1.8</li>
-                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 10.2, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: vLLM, LMCache, LLM inference)</span></li><li><strong>Data Movement &amp; Pipeline</strong>: +3.0 <span class='muted'>(terms: data movement)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="14.2" data-title="understanding bottlenecks for efficiently serving llm inference with kv offloading">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#8</div>
-                      <h2><a href="https://arxiv.org/abs/2601.19910" target="_blank" rel="noreferrer">Understanding Bottlenecks for Efficiently Serving LLM Inference With KV Offloading</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 16 December, 2025; originally announced January 2026. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">14.2</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">KV cache offloading enables long-context LLM inference by storing caches in CPU DRAM, but PCIe bandwidth limitations create severe bottlenecks. In this paper, we develops an analytical framework that derives $κ_{\text{crit}}$, the critical cached -to-prefill token ratio where execution becomes memory-bound and show typical workloads exceed this threshold by orders of magnitude. Empirical characterization reveals 99\% of latency spent on transfers and serving offloaded requests results in GPU&#x27;s consuming only 28\% of their rated TDP, motivating our proposed optimizations for hardware interconnects, model architectures, and scheduling algorithms. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving</span>
-                    <span class="chip">terms: DRAM, KV cache, KV cache offloading, LLM inference</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +10.8</li>
-                          <li>Title keyword bonus: +0.9</li>
-                          <li>Title bonus terms: +0.3 <span class='muted'>(offloading)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 10.8, title-match 0.9, title-terms 0.3, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache, KV cache offloading)</span></li><li><strong>Memory Hierarchy</strong>: +3.6 <span class='muted'>(terms: DRAM)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="13.3" data-title="kv cache transform coding for compact storage in llm inference">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#9</div>
-                      <h2><a href="https://arxiv.org/abs/2511.01815" target="_blank" rel="noreferrer">KV Cache Transform Coding for Compact Storage in LLM Inference</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 11 March, 2026; v1 submitted 3 November, 2025; originally announced November 2025. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">13.3</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">Serving large language models (LLMs) at scale necessitates efficient key - value ( KV ) cache management. KV caches can be reused across conversation turns via shared-prefix prompts that are common in iterative code editing and chat. However, stale caches consume scarce GPU memory, require offloading , or force recomputation. We present KVTC, a lightweight transform coder that compresses KV caches for compact on-GPU and off-GPU storage. Drawing on classical media compression, KVTC combines PCA-based feature decorrelation, adaptive quantization, and entropy coding. It requires only a brief initial calibration and leaves model parameters unchanged. By exploiting redundancies in KV caches , KVTC achieves up to 20$\times$ compression while maintaining reasoning and long-context accuracy, and 40$\times$ or higher for specific use cases. We test KVTC with Llama 3, Mistral NeMo, and R1-Qwen 2.5 models across benchmarks including AIME25, GSM8K, LiveCodeBench, LongBench, MATH-500, MMLU, Qasper and RULER. It consistently outperforms inference-time baselines such as token eviction, quantization, and SVD-based methods, while achieving higher compression ratios. These results support KVTC as a practical building block for memory-efficient LLM serving with reusable KV caches . △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Compression &amp; Quantization</span>
-                    <span class="chip">terms: compression, KV cache, LLM inference, LLM serving, quantization</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +9.0</li>
-                          <li>Title keyword bonus: +1.8</li>
-                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 9.0, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM serving, LLM inference)</span></li><li><strong>Compression &amp; Quantization</strong>: +1.8 <span class='muted'>(terms: quantization, compression)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="13.3" data-title="harvest: opportunistic peer-to-peer gpu caching for llm inference">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#10</div>
-                      <h2><a href="https://arxiv.org/abs/2602.00328" target="_blank" rel="noreferrer">Harvest: Opportunistic Peer-to-Peer GPU Caching for LLM Inference</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 30 January, 2026; originally announced February 2026. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">13.3</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">Large Language Model (LLM) inference is increasingly constrained by GPU memory capacity rather than compute throughput, driven by growing model sizes and the linear growth of the key - value ( KV ) cache during autoregressive decoding. Existing approaches mitigate memory pressure by offloading model state and KV tensors to host memory, but incur substantial latency due to limited PCIe bandwidth. We present Harvest, an opportunistic GPU cache management framework that exploits high-bandwidth peer-to-peer GPU interconnects to dynamically place model weights and KV cache in unused GPU memory. Harvest treats peer GPU memory as a transient cache tier, preserving correctness while reducing data movement overhead under dynamic memory availability. We demonstrate significant throughput speedup of more than 2 times by using Harvest to accelerate the retrieval of two widely-used inference components: expert layer weights and KV cache entries. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Data Movement &amp; Pipeline</span>
-                    <span class="chip">terms: data movement, KV cache, LLM inference</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +10.2</li>
-                          <li>Title keyword bonus: +0.9</li>
-                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 10.2, title-match 0.9, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li><li><strong>Data Movement &amp; Pipeline</strong>: +3.0 <span class='muted'>(terms: data movement)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="12.4" data-title="shadowserve: interference-free kv cache fetching for distributed prefix caching">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#11</div>
-                      <h2><a href="https://arxiv.org/abs/2509.16857" target="_blank" rel="noreferrer">ShadowServe: Interference-Free KV Cache Fetching for Distributed Prefix Caching</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 20 September, 2025; originally announced September 2025. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">12.4</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">Distributed prefix caching accelerates long-context LLM serving by reusing KV cache entries for common context prefixes. However, KV cache fetches can become a bottleneck when network bandwidth is limited. Compression mitigates the bandwidth issue, but can degrade overall performance when decompression interferes with model computation. We present ShadowServe, the first SmartNIC-accelerated, interference-free prefix caching system for LLM serving. ShadowServe separates a control plane on the host and a data plane fully offloaded to the SmartNIC, which eliminates interference to both host GPU and CPU. To overcome the SmartNIC&#x27;s limited compute and memory resources, we design a chunked pipeline that parallelizes data plane operations across the SmartNIC&#x27;s compute resources, and a minimal-copy memory management scheme that reduces memory pressure on the SmartNIC. Compared to state-of-the-art solutions, ShadowServe achieves up to 2.2x lower loaded time-per-output-token (TPOT), and reduces time-to-first-token (TTFT) by up to 1.38x in low-bandwidth scenarios (&lt;= 20 Gbps), translating to up to 1.35x higher throughput. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Compression &amp; Quantization</span>
-                    <span class="chip">terms: compression, KV cache, LLM serving, prefix caching</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +9.0</li>
-                          <li>Title keyword bonus: +0.9</li>
-                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 9.0, title-match 0.9, title-terms 0.3, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache, prefix caching)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM serving)</span></li><li><strong>Compression &amp; Quantization</strong>: +1.8 <span class='muted'>(terms: compression)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="12.4" data-title="cache what lasts: token retention for memory-bounded kv cache in llms">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#12</div>
-                      <h2><a href="https://arxiv.org/abs/2512.03324" target="_blank" rel="noreferrer">Cache What Lasts: Token Retention for Memory-Bounded KV Cache in LLMs</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 28 February, 2026; v1 submitted 2 December, 2025; originally announced December 2025. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">12.4</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">Memory and computation remain core bottlenecks in long-horizon LLM inference due to the quadratic cost of self- attention and the ever-growing key - value ( KV ) cache . Existing strategies for memory-bounded inference, such as quantization, offloading , or heuristic KV eviction, either incur high orchestration costs or rely on unreliable attention -based proxies of importance. We propose TRIM- KV , a novel approach that learns each token&#x27;s intrinsic importance at creation time via a lightweight retention gate. Each gate predicts a scalar retention score that decays over time, reflecting the long-term utility of the token for a specific layer and head. Tokens with low scores are evicted when the memory budget is exceeded, ensuring that the cache always contains the most critical tokens. TRIM- KV is trained efficiently through distillation from a frozen LLM combined with a capacity loss, requiring only gate fine-tuning and adding negligible inference overhead. Across mathematical reasoning (GSM8K, MATH-500, AIME24), procedural generation (LongProc), conversational long-memory benchmarks (LongMemEval), and long-context understanding (LongBenchV2 and SCBench), TRIM- KV consistently outperforms strong eviction and learnable retrieval baselines, especially in low-memory regimes. Remarkably, it even surpasses full- cache models in some settings, showing that selective retention can serve as a form of regularization, suppressing noise from uninformative tokens. Qualitative analyses further reveal that learned retention scores align with human intuition, naturally recovering heuristics such as sink tokens, sliding windows, and gist compression without explicit design. Beyond efficiency, retention scores provide insights into layer- and head-specific roles, suggesting a new path toward LLM interpretability. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Compression &amp; Quantization</span>
-                    <span class="chip">terms: compression, KV cache, LLM inference, quantization</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +9.0</li>
-                          <li>Title keyword bonus: +0.9</li>
-                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 9.0, title-match 0.9, title-terms 0.3, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li><li><strong>Compression &amp; Quantization</strong>: +1.8 <span class='muted'>(terms: quantization, compression)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="11.5" data-title="orbitflow: slo-aware long-context llm serving with fine-grained kv cache reconfiguration">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#13</div>
-                      <h2><a href="https://arxiv.org/abs/2601.10729" target="_blank" rel="noreferrer">OrbitFlow: SLO-Aware Long-Context LLM Serving with Fine-Grained KV Cache Reconfiguration</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 2 March, 2026; v1 submitted 4 January, 2026; originally announced January 2026. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">11.5</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">Serving long-context LLMs is challenging because request lengths and batch composition vary during token generation, causing the memory footprint to fluctuate significantly at runtime. Offloading KV caches to host memory limits effective memory usage, but existing static and predetermined offloading strategies cannot adapt to the rapidly shifting memory demands of long-context serving. This often leads to excessive CPU-to-GPU KV transfers that translate into latency spikes and frequent SLO violations. To address these challenges, we introduce OrbitFlow, a fine-grained and adaptive KV cache management system that meets latency SLOs in long-context LLM serving. OrbitFlow employs a lightweight ILP solver to decide which layers&#x27; KV caches to retain on the GPU for each request, within memory capacity constraints. It continuously refines KV placements based on runtime feedback when the active plan becomes suboptimal during token generation. Under heavy load, OrbitFlow invokes a fallback mechanism to temporarily defer in-flight requests with large memory footprints, preserving overall SLO attainment. Our experiments demonstrate that OrbitFlow improves SLO attainment for TPOT and TBT by up to 66% and 48%, respectively, while reducing the 95th percentile latency by 38% and achieving up to 3.3x higher throughput compared to existing offloading methods. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving</span>
-                    <span class="chip">terms: KV cache, LLM serving</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +7.2</li>
-                          <li>Title keyword bonus: +1.8</li>
-                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 7.2, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM serving)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="11.5" data-title="oneiros: kv cache optimization through parameter remapping for multi-tenant llm serving">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#14</div>
-                      <h2><a href="https://arxiv.org/abs/2507.11507" target="_blank" rel="noreferrer">Oneiros: KV Cache Optimization through Parameter Remapping for Multi-tenant LLM Serving</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 29 October, 2025; v1 submitted 15 July, 2025; originally announced July 2025. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">11.5</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">KV cache accelerates LLM inference by avoiding redundant computation, at the expense of memory. To support larger KV caches , prior work extends GPU memory with CPU memory via CPU- offloading . This involves swapping KV cache between GPU and CPU memory. However, because the cache updates dynamically, such swapping incurs high CPU memory traffic. We make a key observation that model parameters remain constant during runtime, unlike the dynamically updated KV cache . Building on this, we introduce Oneiros, which avoids KV cache swapping by remapping, and thereby repurposing, the memory allocated to model parameters for KV cache . This parameter remapping is especially beneficial in multi-tenant environments, where the memory used for the parameters of the inactive models can be more aggressively reclaimed. Exploiting the high CPU-GPU bandwidth offered by the modern hardware, such as the NVIDIA Grace Hopper Superchip, we show that Oneiros significantly outperforms state-of-the-art solutions, achieving a reduction of 44.8%-82.5% in tail time-between-token latency, 20.7%-99.3% in tail time-to-first-token latency, and 6.6%-86.7% higher throughput compared to vLLM. Source code of Oneiros is available at https://github.com/UT-SysML/Oneiros/. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving</span>
-                    <span class="chip">terms: KV cache, LLM inference, LLM serving, vLLM</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +7.2</li>
-                          <li>Title keyword bonus: +1.8</li>
-                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 7.2, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: vLLM, LLM serving, LLM inference)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
-                </article><article class="card" data-score="11.5" data-title="comparative characterization of kv cache management strategies for llm inference">
-                  <div class="card-head">
-                    <div>
-                      <div class="rank">#15</div>
-                      <h2><a href="https://arxiv.org/abs/2604.05012" target="_blank" rel="noreferrer">Comparative Characterization of KV Cache Management Strategies for LLM Inference</a></h2>
-                      <div class="meta">arXiv KV Cache Search · Submitted 6 April, 2026; originally announced April 2026. · html</div>
-                    </div>
-                    <div class="score-box">
-                      <div class="score">11.5</div>
-                      <div class="score-label">score · Must Read</div>
-                    </div>
-                  </div>
-
-                  <p class="summary">Efficient inference with Large Language Models (LLMs) increasingly relies on Key - Value ( KV ) caches to store previously computed key and value vectors at each layer. These caches are essential to minimize redundant computation during autoregressive token generation, lowering computational complexity from quadratic to linear. However, the growth of KV caches has posed significant system-level challenges, particularly as model sizes increase, context lengths grow, and concurrent requests compete for limited memory resources. Even though several recent frameworks for KV cache management have emerged, their comparative trade-offs in memory consumption and inference performance have not been fully understood, especially under varying request sizes and model configurations. In this work, we conduct an empirical study of three state-of-the-art KV cache management frameworks: vLLM, InfiniGen, and H2O. These frameworks employ techniques such as tensor offloading , token eviction heuristics, and speculative scheduling to balance memory usage and performance. We evaluate their performance in terms of a range of metrics such as latency, throughput, and memory usage across a spectrum of key parameters including request rates, model sizes, and sparsity levels. Our results pinpoint the conditions for each framework to perform the best, revealing the most suitable selection and configuration of KV cache strategies under memory and performance constraints. △ Less</p>
-
-                  
-
-                  <div class="chips">
-                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
-                    
-                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving</span>
-                    <span class="chip">terms: KV cache, LLM inference, vLLM</span>
-                  </div>
-
-                  <details>
-                    <summary>Why this score?</summary>
-                    <div class="details-grid">
-                      <div>
-                        <h3>Breakdown</h3>
-                        <ul>
-                          <li>Source priority: +2.0</li>
-                          <li>Keyword matches: +7.2</li>
-                          <li>Title keyword bonus: +1.8</li>
-                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
-                          <li>Recency bonus: +0.0</li>
-                          <li>Summary bonus: +0.2</li>
-                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
-                          
-                          
-                          
-                        </ul>
-                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 7.2, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read</p>
-                      </div>
-                      <div>
-                        <h3>Keyword contributions</h3>
-                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: vLLM, LLM inference)</span></li></ul>
-                      </div>
-                    </div>
-                  </details>
                 </article><article class="card" data-score="11.2" data-title="adaptive multi-objective tiered storage configuration for kv cache in llm service">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#16</div>
+                      <div class="rank">#3</div>
                       <h2><a href="https://arxiv.org/abs/2603.08739" target="_blank" rel="noreferrer">Adaptive Multi-Objective Tiered Storage Configuration for KV Cache in LLM Service</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 25 February, 2026; originally announced March 2026. · html</div>
                     </div>
@@ -936,7 +299,7 @@
                 </article><article class="card" data-score="10.9" data-title="scalable processing-near-memory for 1m-token llm inference: cxl-enabled kv - cache management beyond gpu limits">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#17</div>
+                      <div class="rank">#4</div>
                       <h2><a href="https://arxiv.org/abs/2511.00321" target="_blank" rel="noreferrer">Scalable Processing-Near-Memory for 1M-Token LLM Inference: CXL-Enabled KV - Cache Management Beyond GPU Limits</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 31 October, 2025; originally announced November 2025. · html</div>
                     </div>
@@ -985,7 +348,7 @@
                 </article><article class="card" data-score="10.9" data-title="kvnand: efficient on-device large language model inference using dram-free in-flash computing">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#18</div>
+                      <div class="rank">#5</div>
                       <h2><a href="https://arxiv.org/abs/2512.03608" target="_blank" rel="noreferrer">KVNAND: Efficient On-Device Large Language Model Inference Using DRAM-Free In-Flash Computing</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 3 December, 2025; originally announced December 2025. · html</div>
                     </div>
@@ -1031,10 +394,157 @@
                       </div>
                     </div>
                   </details>
+                </article><article class="card" data-score="10.75" data-title="lmcache: an efficient kv cache layer for enterprise-scale llm inference">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#6</div>
+                      <h2><a href="https://arxiv.org/abs/2510.09665" target="_blank" rel="noreferrer">LMCache: An Efficient KV Cache Layer for Enterprise-Scale LLM Inference</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 4 December, 2025; v1 submitted 7 October, 2025; originally announced October 2025. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">10.75</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">KV cache has traditionally been stored in GPU memory to accelerate the decoding phase of large language model (LLM) inference. However, it is increasingly necessary to move KV caches outside GPU devices, to enable cache reuse across different queries and inference engines. Our real-world usage statistics confirm this trend: over time, the total KV cache stored by users has grown rapidly, far exceeding the capacity of GPU memory. Despite this need, there lacks an efficient solution for offloading and transferring KV caches . We present LMCACHE, the first and so far the most efficient open-source KV caching solution, which extracts and stores KV caches generated by modern LLM engines (vLLM and SGLang) out of the GPU memory and shares them across engines and queries. LMCACHE supports both cache offloading (prefix reuse across queries) and prefill-decode (PD) disaggregation (cross-engine/GPU cache transfer). LMCACHE&#x27;s high performance and wide adoption stem from the following contributions: (1) highly optimized KV cache data movement powered by batched data movement operations, compute and I/O pipelining; (2) a modular KV cache connector component, decoupling LMCACHE from the rapid evolution of inference engines; (3) a first-class control API for flexible cache orchestration across GPU, CPU, storage, and network layers. Our evaluation shows that combining LMCACHE with vLLM achieves up to 15x improvement in throughput across workloads such as multi-round question answering and document analysis. Large-scale adoption of LMCACHE in enterprise settings provides us valuable insights, for example, fetching KV cache from remote storage has unsurprisingly benefits to prefill delay, and that context truncation, which is a widely applied technique in industry, can greatly reduce prefix cache hit ratio by half. The source code of LMCACHE is at: https://github.com/LMCache/LMCache. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>9.2</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>9.5</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>Perfect Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>9.0</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.5</strong></span> <span class='detail-score'>기술깊이: <strong>8.5</strong></span> <span class='detail-score'>참신성: <strong>8.0</strong></span> <span class='detail-score'>실용성: <strong>9.5</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> Directly addresses KV cache offloading, hierarchical memory systems, and real-system validation with vLLM integration.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Covers KV cache offloading, data movement optimization, and real-system experiments with vLLM, aligning perfectly with the research profile.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> Highly relevant to LLM inference optimization and memory offloading, with practical enterprise-scale insights.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> LMCache는 GPU 메모리 외부로 KV 캐시를 오프로딩하여 다중 쿼리 및 인퍼런스 엔진 간 캐시 재사용을 가능하게 하는 효율적인 오픈소스 솔루션입니다. 배치 데이터 이동, 파이프라이닝, 모듈식 아키텍처를 통해 vLLM과 통합하여 최대 15배의 처리량 향상을 달성했습니다. 기업 환경에서 큰 규모로 채택되어 원격 스토리지에서의 캐시 가져오기 및 컨텍스트 트렁케이션의 영향을 분석합니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 9.5/10</span>
+                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Data Movement &amp; Pipeline</span>
+                    <span class="chip">terms: data movement, KV cache, LLM inference, LMCache, vLLM</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +10.2</li>
+                          <li>Title keyword bonus: +1.8</li>
+                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 9.2/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — Directly addresses KV cache offloading, hierarchical memory systems, and real-system validation with vLLM integration.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 9.0/10 <span class='muted'> — Highly relevant to LLM inference optimization and memory offloading, with practical enterprise-scale insights.</span></li>
+                          <li><span class='bd-label'>Research match</span> 9.5/10 <span class='match-label'>Perfect Match</span><span class='muted'> — Covers KV cache offloading, data movement optimization, and real-system experiments with vLLM, aligning perfectly with the research profile.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 10.2, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read, llm 9.2, ai-rec 9.0, research-match 9.5, total 10.75</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: vLLM, LMCache, LLM inference)</span></li><li><strong>Data Movement &amp; Pipeline</strong>: +3.0 <span class='muted'>(terms: data movement)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="10.6" data-title="sparseserve: unlocking parallelism for dynamic sparse attention in long-context llm serving">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#7</div>
+                      <h2><a href="https://arxiv.org/abs/2509.24626" target="_blank" rel="noreferrer">SparseServe: Unlocking Parallelism for Dynamic Sparse Attention in Long-Context LLM Serving</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 29 September, 2025; originally announced September 2025. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">10.6</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Serving long-context LLMs is costly because attention computation grows linearly with context length. Dynamic sparse attention algorithms (DSAs) mitigate this by attending only to the key - value ( KV ) cache of critical tokens. However, with DSAs, the main performance bottleneck shifts from HBM bandwidth to HBM capacity: KV caches for unselected tokens must remain in HBM for low-latency decoding, constraining parallel batch size and stalling further throughput gains. Offloading these underutilized KV caches to DRAM could free HBM capacity, allowing larger parallel batch sizes. Yet, achieving such hierarchical HBM-DRAM storage raises new challenges, including fragmented KV cache access, HBM cache contention, and high HBM demands of hybrid batching, that remain unresolved in prior work. This paper proposes SparseServe, an LLM serving system that unlocks the parallel potential of DSAs through efficient hierarchical HBM-DRAM management. SparseServe introduces three key innovations to address the challenges mentioned above: (1) fragmentation-aware KV cache transfer, which accelerates HBM-DRAM data movement through GPU-direct loading (FlashH2D) and CPU-assisted saving (FlashD2H); (2) working-set-aware batch size control that adjusts batch sizes based on real-time working set estimation to minimize HBM cache thrashing; (3) layer-segmented prefill that bounds HBM use during prefill to a single layer, enabling efficient execution even for long prompts. Extensive experimental results demonstrate that SparseServe achieves up to 9.26x lower mean time-to-first-token (TTFT) latency and up to 3.14x higher token generation throughput compared to state-of-the-art LLM serving systems. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>8.5</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.0</strong></span> <span class='detail-score'>참신성: <strong>7.5</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> Directly addresses KV cache offloading and hierarchical memory management for LLM serving, with real-system experiments and performance improvements.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Aligns with KV cache optimization, hierarchical memory systems, and LLM serving engine integration, with real-system validation.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> Proposes novel solutions for HBM-DRAM management in sparse attention, with significant latency and throughput improvements.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> SparseServe는 동적 희소 주의를 위한 LLM 서빙 시스템으로, HBM-DRAM 계층적 관리와 프래그먼트 인식 KV 캐시 전송, 작업 집합 기반 배치 크기 제어, 레이어 세그먼트 프리필을 통해 성능을 개선합니다. extensive한 실험 결과로 TTFT 지연을 9.26배 줄이고 토큰 생성 처리량을 3.14배 향상시켰습니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 8.5/10</span>
+                    <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving, Data Movement &amp; Pipeline</span>
+                    <span class="chip">terms: data movement, DRAM, HBM, KV cache, LLM serving</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +13.8</li>
+                          <li>Title keyword bonus: +0.9</li>
+                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — Directly addresses KV cache offloading and hierarchical memory management for LLM serving, with real-system experiments and performance improvements.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — Proposes novel solutions for HBM-DRAM management in sparse attention, with significant latency and throughput improvements.</span></li>
+                          <li><span class='bd-label'>Research match</span> 8.5/10 <span class='match-label'>High Match</span><span class='muted'> — Aligns with KV cache optimization, hierarchical memory systems, and LLM serving engine integration, with real-system validation.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 13.8, title-match 0.9, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 8.5, total 10.6</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>Memory Hierarchy</strong>: +3.6 <span class='muted'>(terms: HBM, DRAM)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM serving)</span></li><li><strong>Data Movement &amp; Pipeline</strong>: +3.0 <span class='muted'>(terms: data movement)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="10.6" data-title="scoutattention: efficient kv cache offloading via layer-ahead cpu pre-computation for llm inference">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#8</div>
+                      <h2><a href="https://arxiv.org/abs/2603.27138" target="_blank" rel="noreferrer">ScoutAttention: Efficient KV Cache Offloading via Layer-Ahead CPU Pre-computation for LLM Inference</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 28 March, 2026; originally announced March 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">10.6</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Large language models encounter critical GPU memory capacity constraints during long-context inference, where KV cache memory consumption severely limits decode batch sizes. While existing research has explored offloading KV cache to DRAM, these approaches either demand frequent GPU-CPU data transfers or impose extensive CPU computation requirements, resulting in poor GPU utilization as the system waits for I/O operations or CPU processing to complete. We propose ScoutAttention, a novel KV cache offloading framework that accelerates LLM inference through collaborative GPU-CPU attention computation. To prevent CPU computation from bottlenecking the system, ScoutAttention introduces GPU-CPU collaborative block-wise sparse attention that significantly reduces CPU load. Unlike conventional parallel computing approaches, our framework features a novel layer-ahead CPU pre-computation algorithm, enabling the CPU to initiate attention computation one layer in advance, complemented by asynchronous periodic recall mechanisms to maintain minimal CPU compute load. Experimental results demonstrate that ScoutAttention maintains accuracy within 2.4% of baseline while achieving 2.1x speedup compared to existing offloading methods. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>9.0</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.0</strong></span> <span class='detail-score'>참신성: <strong>8.5</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> Proposes a novel KV cache offloading framework with real-system experiments and collaborative GPU-CPU attention computation, directly addressing memory hierarchy and offloading challenges.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Directly addresses KV cache offloading, hierarchical memory systems (DRAM), and LLM inference optimization, with real-system validation and focus on data movement and compute trade-offs.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> The paper introduces a practical solution for KV cache offloading with measurable speedup and accuracy trade-offs, aligning with current AI system optimization trends.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> ScoutAttention은 GPU 메모리 용량 제약으로 인한 LLM 추론 성능 저하를 해결하기 위해 CPU와 GPU의 협력적인 attention 연산을 통해 KV 캐시 오프로딩을 제안합니다. CPU의 사전 연산과 비동기적 재호출 메커니즘을 통해 CPU 부하를 최소화하고, 기존 오프로딩 방법보다 2.1배의 속도 향상을 달성했습니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 9.0/10</span>
+                    <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving</span>
+                    <span class="chip">terms: DRAM, KV cache, KV cache offloading, LLM inference</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +10.8</li>
+                          <li>Title keyword bonus: +1.8</li>
+                          <li>Title bonus terms: +0.6 <span class='muted'>(KV cache, offloading)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — Proposes a novel KV cache offloading framework with real-system experiments and collaborative GPU-CPU attention computation, directly addressing memory hierarchy and offloading challenges.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — The paper introduces a practical solution for KV cache offloading with measurable speedup and accuracy trade-offs, aligning with current AI system optimization trends.</span></li>
+                          <li><span class='bd-label'>Research match</span> 9.0/10 <span class='match-label'>High Match</span><span class='muted'> — Directly addresses KV cache offloading, hierarchical memory systems (DRAM), and LLM inference optimization, with real-system validation and focus on data movement and compute trade-offs.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 10.8, title-match 1.8, title-terms 0.6, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 9.0, total 10.6</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache, KV cache offloading)</span></li><li><strong>Memory Hierarchy</strong>: +3.6 <span class='muted'>(terms: DRAM)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
                 </article><article class="card" data-score="10.6" data-title="flexicache: leveraging temporal stability of attention heads for efficient kv cache management">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#19</div>
+                      <div class="rank">#9</div>
                       <h2><a href="https://arxiv.org/abs/2511.00868" target="_blank" rel="noreferrer">FlexiCache: Leveraging Temporal Stability of Attention Heads for Efficient KV Cache Management</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 2 November, 2025; originally announced November 2025. · html</div>
                     </div>
@@ -1083,7 +593,7 @@
                 </article><article class="card" data-score="10.6" data-title="continuum: efficient and robust multi-turn llm agent scheduling with kv cache time-to-live">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#20</div>
+                      <div class="rank">#10</div>
                       <h2><a href="https://arxiv.org/abs/2511.02230" target="_blank" rel="noreferrer">Continuum: Efficient and Robust Multi-Turn LLM Agent Scheduling with KV Cache Time-to-Live</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 29 January, 2026; v1 submitted 3 November, 2025; originally announced November 2025. · html</div>
                     </div>
@@ -1129,10 +639,59 @@
                       </div>
                     </div>
                   </details>
+                </article><article class="card" data-score="10.45" data-title="understanding bottlenecks for efficiently serving llm inference with kv offloading">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#11</div>
+                      <h2><a href="https://arxiv.org/abs/2601.19910" target="_blank" rel="noreferrer">Understanding Bottlenecks for Efficiently Serving LLM Inference With KV Offloading</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 16 December, 2025; originally announced January 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">10.45</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">KV cache offloading enables long-context LLM inference by storing caches in CPU DRAM, but PCIe bandwidth limitations create severe bottlenecks. In this paper, we develops an analytical framework that derives $κ_{\text{crit}}$, the critical cached -to-prefill token ratio where execution becomes memory-bound and show typical workloads exceed this threshold by orders of magnitude. Empirical characterization reveals 99\% of latency spent on transfers and serving offloaded requests results in GPU&#x27;s consuming only 28\% of their rated TDP, motivating our proposed optimizations for hardware interconnects, model architectures, and scheduling algorithms. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>9.2</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.5</strong></span> <span class='detail-score'>참신성: <strong>7.5</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> Directly addresses KV cache offloading bottlenecks and memory hierarchy optimization, with empirical validation and hardware interconnect analysis.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Aligns with KV cache offloading, DRAM bottlenecks, and empirical system analysis, addressing key research questions.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> Provides critical insights into memory-bound LLM inference and actionable optimizations for hardware and scheduling.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> 이 논문은 KV 캐시 오프로딩이 GPU DRAM에서 작동할 때 PCIe 대역폭 제한으로 인해 발생하는 병목 현상을 분석합니다. $κ_{ ext{crit}}$라는 임계값을 도입하여 메모리 바운드 상태를 정의하고, 실험을 통해 99%의 지연이 데이터 전송에 의해 발생하며 GPU가 전체 TDP의 28%만 사용하는 것을 보여줍니다. 하드웨어 인터커넥트, 모델 아키텍처, 스케줄링 알고리즘에 대한 최적화 방안을 제안합니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 9.2/10</span>
+                    <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving</span>
+                    <span class="chip">terms: DRAM, KV cache, KV cache offloading, LLM inference</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +10.8</li>
+                          <li>Title keyword bonus: +0.9</li>
+                          <li>Title bonus terms: +0.3 <span class='muted'>(offloading)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — Directly addresses KV cache offloading bottlenecks and memory hierarchy optimization, with empirical validation and hardware interconnect analysis.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — Provides critical insights into memory-bound LLM inference and actionable optimizations for hardware and scheduling.</span></li>
+                          <li><span class='bd-label'>Research match</span> 9.2/10 <span class='match-label'>High Match</span><span class='muted'> — Aligns with KV cache offloading, DRAM bottlenecks, and empirical system analysis, addressing key research questions.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 10.8, title-match 0.9, title-terms 0.3, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 9.2, total 10.45</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache, KV cache offloading)</span></li><li><strong>Memory Hierarchy</strong>: +3.6 <span class='muted'>(terms: DRAM)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
                 </article><article class="card" data-score="10.3" data-title="superinfer: slo-aware rotary scheduling and memory management for llm inference on superchips">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#21</div>
+                      <div class="rank">#12</div>
                       <h2><a href="https://arxiv.org/abs/2601.20309" target="_blank" rel="noreferrer">SuperInfer: SLO-Aware Rotary Scheduling and Memory Management for LLM Inference on Superchips</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 28 January, 2026; originally announced January 2026. · html</div>
                     </div>
@@ -1181,7 +740,7 @@
                 </article><article class="card" data-score="10.3" data-title="hgca: hybrid gpu-cpu attention for long context llm inference">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#22</div>
+                      <div class="rank">#13</div>
                       <h2><a href="https://arxiv.org/abs/2507.03153" target="_blank" rel="noreferrer">HGCA: Hybrid GPU-CPU Attention for Long Context LLM Inference</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 3 July, 2025; originally announced July 2025. · html</div>
                     </div>
@@ -1230,7 +789,7 @@
                 </article><article class="card" data-score="10.3" data-title="hcattention: extreme kv cache compression via heterogeneous attention computing for llms">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#23</div>
+                      <div class="rank">#14</div>
                       <h2><a href="https://arxiv.org/abs/2507.19823" target="_blank" rel="noreferrer">HCAttention: Extreme KV Cache Compression via Heterogeneous Attention Computing for LLMs</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 26 July, 2025; originally announced July 2025. · html</div>
                     </div>
@@ -1279,7 +838,7 @@
                 </article><article class="card" data-score="10.3" data-title="asynctls: efficient generative llm inference with asynchronous two-level sparse attention">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#24</div>
+                      <div class="rank">#15</div>
                       <h2><a href="https://arxiv.org/abs/2604.07815" target="_blank" rel="noreferrer">AsyncTLS: Efficient Generative LLM Inference with Asynchronous Two-level Sparse Attention</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 9 April, 2026; originally announced April 2026. · html</div>
                     </div>
@@ -1325,10 +884,59 @@
                       </div>
                     </div>
                   </details>
+                </article><article class="card" data-score="10.3" data-title="architecture-aware llm inference optimization on amd instinct gpus: a comprehensive benchmark and deployment study">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#16</div>
+                      <h2><a href="https://arxiv.org/abs/2603.10031" target="_blank" rel="noreferrer">Architecture-Aware LLM Inference Optimization on AMD Instinct GPUs: A Comprehensive Benchmark and Deployment Study</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 27 February, 2026; originally announced March 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">10.3</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">We present a cross-architecture evaluation of production LLM inference on AMD Instinct MI325X GPUs, benchmarking four models spanning 235B to 1 trillion parameters across three architectural families (MoE+MLA, Dense+GQA, MoE+GQA) on an 8-GPU cluster with 2TB aggregate HBM3e using vLLM v0.14.1. Our results demonstrate that architecture-aware optimization is essential: MLA models require block size 1 and cannot use KV cache offloading , while GQA models benefit from both. The AMD AITER runtime is required for competitive MLA inference throughput and must be selectively disabled for architectures with incompatible attention head configurations. A controlled AITER ablation on Llama-3.1-405B (n=5 per condition) reveals a modest 3-5% throughput benefit at high concurrency but 2-16x higher measurement variability, confirming that AITER&#x27;s large speedups target MoE/MLA kernels specifically. Under text-only workloads, Llama-405B and DeepSeek V3.2 achieve comparable peak throughput (15,944 and 15,343 tok/s) despite an order-of-magnitude difference in active parameters. Under vision workloads, Qwen3-VL-235B reaches 47,873 tok/s, 6.5x higher than Kimi-K2.5 (7,327 tok/s). Active parameter count per token is associated with inference throughput, though confounded by differences in quantization, AITER acceleration, and tensor parallelism. All four models exhibit a common throughput saturation point consistent with a memory-bandwidth bottleneck (~500 concurrent for short sequences, ~100-200 for longer sequences). All models maintain 100% HTTP-level success rates through 1,000 concurrent users, processing 18.9 million tokens across 17,406 requests without failures. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>8.5</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.0</strong></span> <span class='detail-score'>참신성: <strong>7.5</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> The article provides real-system experiments on AMD GPUs with vLLM, focusing on KV cache offloading, memory hierarchy, and quantization, which are highly relevant to the research profile.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> The paper directly addresses KV cache offloading, memory hierarchy, and LLM inference optimizations, aligning closely with the research profile&#x27;s focus areas.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> The study includes quantitative benchmarks, end-to-end pipeline evaluation, and system-level optimizations, making it valuable for AI system research.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> 이 논문은 AMD Instinct MI325X GPU에서 4개의 모델(235B~1조 파라미터)을 평가하여, 아키텍처별 최적화의 중요성을 보여줍니다. MLA 모델은 KV 캐시 오프로딩을 사용할 수 없으며, GQA 모델은 이를 활용할 수 있습니다. AITER 런타임의 영향과 메모리 대역폭 병목 현상을 분석하며, 실질적인 성능 개선과 안정성을 검증합니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 8.5/10</span>
+                    <span class="chip">keywords: KV Cache Systems, Memory Hierarchy, LLM Inference &amp; Serving, Compression &amp; Quantization</span>
+                    <span class="chip">terms: HBM, KV cache, KV cache offloading, LLM inference, quantization, vLLM</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +12.6</li>
+                          <li>Title keyword bonus: +0.9</li>
+                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — The article provides real-system experiments on AMD GPUs with vLLM, focusing on KV cache offloading, memory hierarchy, and quantization, which are highly relevant to the research profile.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — The study includes quantitative benchmarks, end-to-end pipeline evaluation, and system-level optimizations, making it valuable for AI system research.</span></li>
+                          <li><span class='bd-label'>Research match</span> 8.5/10 <span class='match-label'>High Match</span><span class='muted'> — The paper directly addresses KV cache offloading, memory hierarchy, and LLM inference optimizations, aligning closely with the research profile&#x27;s focus areas.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 12.6, title-match 0.9, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 8.5, total 10.3</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache, KV cache offloading)</span></li><li><strong>Memory Hierarchy</strong>: +3.6 <span class='muted'>(terms: HBM)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: vLLM, LLM inference)</span></li><li><strong>Compression &amp; Quantization</strong>: +1.8 <span class='muted'>(terms: quantization)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
                 </article><article class="card" data-score="10.3" data-title="apex: asynchronous parallel cpu-gpu execution for online llm inference on constrained gpus">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#25</div>
+                      <div class="rank">#17</div>
                       <h2><a href="https://arxiv.org/abs/2506.03296" target="_blank" rel="noreferrer">APEX: Asynchronous Parallel CPU-GPU Execution for Online LLM Inference on Constrained GPUs</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 14 January, 2026; v1 submitted 3 June, 2025; originally announced June 2025. · html</div>
                     </div>
@@ -1374,10 +982,157 @@
                       </div>
                     </div>
                   </details>
+                </article><article class="card" data-score="10.22" data-title="hillinfer: efficient long-context llm inference on the edge with hierarchical kv eviction using smartssd">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#18</div>
+                      <h2><a href="https://arxiv.org/abs/2602.18750" target="_blank" rel="noreferrer">HillInfer: Efficient Long-Context LLM Inference on the Edge with Hierarchical KV Eviction using SmartSSD</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 25 March, 2026; v1 submitted 21 February, 2026; originally announced February 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">10.22</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Deploying Large Language Models (LLMs) on memory-constrained AI Personal Computers (AIPCs) enables low-latency, privacy-preserving inference, but long-context generation is fundamentally bottlenecked by the linearly growing Key - Value ( KV ) cache . While dynamic KV eviction mitigates this memory wall, existing offloading strategies either trigger crippling PCIe I/O bottlenecks on standard SSDs or suffer from FPGA resource exhaustion by forcing compute-intensive exact attention on a single, weak Computational Storage Drive (CSD). In this paper, we propose HillInfer, a CSD-assisted KV eviction framework that introduces a paradigm shift: offloading strictly lightweight token importance evaluation to a single CSD (e.g., SmartSSD) on AIPCs. To fully capitalize on this lightweight offloading strategy, HillInfer orchestrates a Hierarchical KV Cache Manager (HKM) that leverages temporal locality and dynamic token hit rates to physically partition cache pools, thereby eliminating cross-device I/O thrashing. Additionally, we design an Adaptive Prefetch-based Pipeline (APP) that adaptively balances the evaluation workload between the host CPU and the SmartSSD, effectively masking the heterogeneous straggler effect. Finally, we introduce a CSD-based Evaluation Configuration (CEC) to enable resource-efficient near-data processing on the FPGA. Extensive experiments on a commodity AIPC demonstrate that HillInfer achieves up to an 8.56$\times$ speedup over state-of-the-art baselines, delivering low-latency, I/O-efficient long-context inference without sacrificing model accuracy. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>8.5</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.0</strong></span> <span class='detail-score'>참신성: <strong>7.5</strong></span> <span class='detail-score'>실용성: <strong>8.5</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> The article directly addresses KV cache optimization and offloading in hierarchical memory systems, including SmartSSD and real-system validation, which aligns closely with the research profile.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> The paper covers KV cache offloading, hierarchical memory systems, and real-system experiments, directly addressing the research profile&#x27;s focus areas.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> The paper introduces novel techniques for KV eviction and offloading, leveraging SmartSSD and adaptive prefetching, which are highly relevant to LLM inference optimization.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> 이 논문은 메모리 제약이 있는 AIPC에서 SmartSSD를 활용한 계층적 KV 캐시 관리와 적응형 프리페치 파이프라인을 통해 효율적인 긴 컨텍스트 LLM 추론을 제안합니다. 실험 결과, 기존 방법보다 최대 8.56배의 성능 향상을 보여주며, I/O 병목과 정확도 저하 없이 추론을 최적화합니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 8.5/10</span>
+                    <span class="chip">keywords: KV Cache Systems, Offloading Systems, LLM Inference &amp; Serving</span>
+                    <span class="chip">terms: KV cache, LLM inference, SmartSSD</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +11.4</li>
+                          <li>Title keyword bonus: +1.8</li>
+                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — The article directly addresses KV cache optimization and offloading in hierarchical memory systems, including SmartSSD and real-system validation, which aligns closely with the research profile.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — The paper introduces novel techniques for KV eviction and offloading, leveraging SmartSSD and adaptive prefetching, which are highly relevant to LLM inference optimization.</span></li>
+                          <li><span class='bd-label'>Research match</span> 8.5/10 <span class='match-label'>High Match</span><span class='muted'> — The paper covers KV cache offloading, hierarchical memory systems, and real-system experiments, directly addressing the research profile&#x27;s focus areas.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 11.4, title-match 1.8, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 8.5, total 10.22</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>Offloading Systems</strong>: +4.2 <span class='muted'>(terms: SmartSSD)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="10.0" data-title="shadowserve: interference-free kv cache fetching for distributed prefix caching">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#19</div>
+                      <h2><a href="https://arxiv.org/abs/2509.16857" target="_blank" rel="noreferrer">ShadowServe: Interference-Free KV Cache Fetching for Distributed Prefix Caching</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 20 September, 2025; originally announced September 2025. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">10.0</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Distributed prefix caching accelerates long-context LLM serving by reusing KV cache entries for common context prefixes. However, KV cache fetches can become a bottleneck when network bandwidth is limited. Compression mitigates the bandwidth issue, but can degrade overall performance when decompression interferes with model computation. We present ShadowServe, the first SmartNIC-accelerated, interference-free prefix caching system for LLM serving. ShadowServe separates a control plane on the host and a data plane fully offloaded to the SmartNIC, which eliminates interference to both host GPU and CPU. To overcome the SmartNIC&#x27;s limited compute and memory resources, we design a chunked pipeline that parallelizes data plane operations across the SmartNIC&#x27;s compute resources, and a minimal-copy memory management scheme that reduces memory pressure on the SmartNIC. Compared to state-of-the-art solutions, ShadowServe achieves up to 2.2x lower loaded time-per-output-token (TPOT), and reduces time-to-first-token (TTFT) by up to 1.38x in low-bandwidth scenarios (&lt;= 20 Gbps), translating to up to 1.35x higher throughput. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>9.2</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.5</strong></span> <span class='detail-score'>참신성: <strong>8.0</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> ShadowServe addresses KV cache offloading and interference-free prefix caching, directly aligning with hierarchical memory and compute offloading research.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Matches multiple keywords (KV cache, compression, prefix caching) and focuses on real-system optimization (SmartNIC, GPU, bandwidth trade-offs).</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> The paper introduces a novel SmartNIC-accelerated system for LLM serving, which is highly relevant to AI infrastructure optimization.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> ShadowServe는 SmartNIC를 활용한 분산 프리픽스 캐싱 시스템으로, 네트워크 대역폭 제한으로 인한 KV 캐시 페치 병목을 해결합니다. 호스트 GPU/CPU와 분리된 데이터 플레인과 청크 파이프라인을 통해 성능 저하를 최소화하며, 최신 솔루션보다 2.2배 빠른 TPOT과 1.38배 빠른 TTFT를 달성합니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 9.2/10</span>
+                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Compression &amp; Quantization</span>
+                    <span class="chip">terms: compression, KV cache, LLM serving, prefix caching</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +9.0</li>
+                          <li>Title keyword bonus: +0.9</li>
+                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — ShadowServe addresses KV cache offloading and interference-free prefix caching, directly aligning with hierarchical memory and compute offloading research.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — The paper introduces a novel SmartNIC-accelerated system for LLM serving, which is highly relevant to AI infrastructure optimization.</span></li>
+                          <li><span class='bd-label'>Research match</span> 9.2/10 <span class='match-label'>High Match</span><span class='muted'> — Matches multiple keywords (KV cache, compression, prefix caching) and focuses on real-system optimization (SmartNIC, GPU, bandwidth trade-offs).</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 9.0, title-match 0.9, title-terms 0.3, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 9.2, total 10.0</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache, prefix caching)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM serving)</span></li><li><strong>Compression &amp; Quantization</strong>: +1.8 <span class='muted'>(terms: compression)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.7" data-title="kv cache transform coding for compact storage in llm inference">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#20</div>
+                      <h2><a href="https://arxiv.org/abs/2511.01815" target="_blank" rel="noreferrer">KV Cache Transform Coding for Compact Storage in LLM Inference</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 11 March, 2026; v1 submitted 3 November, 2025; originally announced November 2025. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.7</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Serving large language models (LLMs) at scale necessitates efficient key - value ( KV ) cache management. KV caches can be reused across conversation turns via shared-prefix prompts that are common in iterative code editing and chat. However, stale caches consume scarce GPU memory, require offloading , or force recomputation. We present KVTC, a lightweight transform coder that compresses KV caches for compact on-GPU and off-GPU storage. Drawing on classical media compression, KVTC combines PCA-based feature decorrelation, adaptive quantization, and entropy coding. It requires only a brief initial calibration and leaves model parameters unchanged. By exploiting redundancies in KV caches , KVTC achieves up to 20$\times$ compression while maintaining reasoning and long-context accuracy, and 40$\times$ or higher for specific use cases. We test KVTC with Llama 3, Mistral NeMo, and R1-Qwen 2.5 models across benchmarks including AIME25, GSM8K, LiveCodeBench, LongBench, MATH-500, MMLU, Qasper and RULER. It consistently outperforms inference-time baselines such as token eviction, quantization, and SVD-based methods, while achieving higher compression ratios. These results support KVTC as a practical building block for memory-efficient LLM serving with reusable KV caches . △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>8.5</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.0</strong></span> <span class='detail-score'>참신성: <strong>7.5</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> KVTC presents a novel compression technique for KV caches, directly addressing memory efficiency in LLM inference, which aligns with the research focus on KV cache optimization and hierarchical memory systems.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> The paper directly addresses KV cache compression, a critical topic in the research profile, and includes real-system validation and quantitative benchmarks.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> The paper introduces a practical and effective method for compressing KV caches, which is highly relevant to AI systems requiring memory optimization.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> 이 논문은 LLM 추론에서 KV 캐시 관리를 효율적으로 하기 위해 KVTC라는 경량 변환 코더를 제안합니다. 고전 미디어 압축 기술을 활용하여 PCA 기반 특성 무상관화, 적응형 양자화, 엔트로피 코딩을 조합하여 KV 캐시를 압축합니다. GPU 및 오프-GPU 저장소에 대한 컴팩트한 저장 공간을 제공하며, 모델 파라미터를 변경하지 않고 초기 캘리브레이션만 필요로 합니다. 다양한 모델과 벤치마크에서 높은 압축 비율과 정확도를 보여주며, 메모리 효율적인 LLM 서빙에 실용적인 솔루션으로 제안됩니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 8.5/10</span>
+                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Compression &amp; Quantization</span>
+                    <span class="chip">terms: compression, KV cache, LLM inference, LLM serving, quantization</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +9.0</li>
+                          <li>Title keyword bonus: +1.8</li>
+                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — KVTC presents a novel compression technique for KV caches, directly addressing memory efficiency in LLM inference, which aligns with the research focus on KV cache optimization and hierarchical memory systems.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — The paper introduces a practical and effective method for compressing KV caches, which is highly relevant to AI systems requiring memory optimization.</span></li>
+                          <li><span class='bd-label'>Research match</span> 8.5/10 <span class='match-label'>High Match</span><span class='muted'> — The paper directly addresses KV cache compression, a critical topic in the research profile, and includes real-system validation and quantitative benchmarks.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 9.0, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 8.5, total 9.7</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM serving, LLM inference)</span></li><li><strong>Compression &amp; Quantization</strong>: +1.8 <span class='muted'>(terms: quantization, compression)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
                 </article><article class="card" data-score="9.7" data-title="kv cache offloading for context-intensive tasks">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#26</div>
+                      <div class="rank">#21</div>
                       <h2><a href="https://arxiv.org/abs/2604.08426" target="_blank" rel="noreferrer">KV Cache Offloading for Context-Intensive Tasks</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 9 April, 2026; originally announced April 2026. · html</div>
                     </div>
@@ -1423,10 +1178,206 @@
                       </div>
                     </div>
                   </details>
+                </article><article class="card" data-score="9.7" data-title="harvest: opportunistic peer-to-peer gpu caching for llm inference">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#22</div>
+                      <h2><a href="https://arxiv.org/abs/2602.00328" target="_blank" rel="noreferrer">Harvest: Opportunistic Peer-to-Peer GPU Caching for LLM Inference</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 30 January, 2026; originally announced February 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.7</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Large Language Model (LLM) inference is increasingly constrained by GPU memory capacity rather than compute throughput, driven by growing model sizes and the linear growth of the key - value ( KV ) cache during autoregressive decoding. Existing approaches mitigate memory pressure by offloading model state and KV tensors to host memory, but incur substantial latency due to limited PCIe bandwidth. We present Harvest, an opportunistic GPU cache management framework that exploits high-bandwidth peer-to-peer GPU interconnects to dynamically place model weights and KV cache in unused GPU memory. Harvest treats peer GPU memory as a transient cache tier, preserving correctness while reducing data movement overhead under dynamic memory availability. We demonstrate significant throughput speedup of more than 2 times by using Harvest to accelerate the retrieval of two widely-used inference components: expert layer weights and KV cache entries. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>8.5</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.0</strong></span> <span class='detail-score'>참신성: <strong>8.5</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> Directly addresses KV cache optimization and data movement in LLM inference, with real-system validation and practical improvements.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Aligns with research focus on KV cache offloading, data movement optimization, and real-system experiments with GPUs.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> Proposes a novel approach to GPU memory management for LLMs, leveraging peer-to-peer interconnects to reduce latency and improve throughput.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> Harvest는 GPU 간 고속 peer-to-peer 연결을 활용하여 동적으로 모델 가중치와 KV 캐시를 사용되지 않는 GPU 메모리에 배치하는 프레임워크입니다. 이는 PCIe 대역폭 한계를 극복하고 데이터 이동 오버헤드를 줄이며, 실질적인 처리량 향상을 보여줍니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 8.5/10</span>
+                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Data Movement &amp; Pipeline</span>
+                    <span class="chip">terms: data movement, KV cache, LLM inference</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +10.2</li>
+                          <li>Title keyword bonus: +0.9</li>
+                          <li>Title bonus terms: +0.0 <span class='muted'>(-)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — Directly addresses KV cache optimization and data movement in LLM inference, with real-system validation and practical improvements.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — Proposes a novel approach to GPU memory management for LLMs, leveraging peer-to-peer interconnects to reduce latency and improve throughput.</span></li>
+                          <li><span class='bd-label'>Research match</span> 8.5/10 <span class='match-label'>High Match</span><span class='muted'> — Aligns with research focus on KV cache offloading, data movement optimization, and real-system experiments with GPUs.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 10.2, title-match 0.9, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 8.5, total 9.7</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li><li><strong>Data Movement &amp; Pipeline</strong>: +3.0 <span class='muted'>(terms: data movement)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.62" data-title="orbitflow: slo-aware long-context llm serving with fine-grained kv cache reconfiguration">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#23</div>
+                      <h2><a href="https://arxiv.org/abs/2601.10729" target="_blank" rel="noreferrer">OrbitFlow: SLO-Aware Long-Context LLM Serving with Fine-Grained KV Cache Reconfiguration</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 2 March, 2026; v1 submitted 4 January, 2026; originally announced January 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.62</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Serving long-context LLMs is challenging because request lengths and batch composition vary during token generation, causing the memory footprint to fluctuate significantly at runtime. Offloading KV caches to host memory limits effective memory usage, but existing static and predetermined offloading strategies cannot adapt to the rapidly shifting memory demands of long-context serving. This often leads to excessive CPU-to-GPU KV transfers that translate into latency spikes and frequent SLO violations. To address these challenges, we introduce OrbitFlow, a fine-grained and adaptive KV cache management system that meets latency SLOs in long-context LLM serving. OrbitFlow employs a lightweight ILP solver to decide which layers&#x27; KV caches to retain on the GPU for each request, within memory capacity constraints. It continuously refines KV placements based on runtime feedback when the active plan becomes suboptimal during token generation. Under heavy load, OrbitFlow invokes a fallback mechanism to temporarily defer in-flight requests with large memory footprints, preserving overall SLO attainment. Our experiments demonstrate that OrbitFlow improves SLO attainment for TPOT and TBT by up to 66% and 48%, respectively, while reducing the 95th percentile latency by 38% and achieving up to 3.3x higher throughput compared to existing offloading methods. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>9.0</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.5</strong></span> <span class='detail-score'>참신성: <strong>8.0</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> OrbitFlow addresses critical KV cache offloading challenges in long-context LLM serving, directly aligning with hierarchical memory optimization and real-system validation.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> The work focuses on KV cache optimization, hierarchical memory systems, and real-system experiments, directly addressing the research profile&#x27;s core topics.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> The paper introduces a novel adaptive KV cache management system with real-world performance improvements, making it highly relevant for AI systems research.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> OrbitFlow는 긴 컨텍스트 LLM 서빙에서 메모리 사용량의 동적 변동을 처리하기 위해 경량화된 ILP 솔버를 사용한 KV 캐시 재구성 시스템을 제안합니다. 실시간 피드백을 통해 GPU에 유지할 레이어의 KV 캐시를 동적으로 결정하여 SLO 준수와 처리량을 향상시킵니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 9.0/10</span>
+                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving</span>
+                    <span class="chip">terms: KV cache, LLM serving</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +7.2</li>
+                          <li>Title keyword bonus: +1.8</li>
+                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — OrbitFlow addresses critical KV cache offloading challenges in long-context LLM serving, directly aligning with hierarchical memory optimization and real-system validation.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — The paper introduces a novel adaptive KV cache management system with real-world performance improvements, making it highly relevant for AI systems research.</span></li>
+                          <li><span class='bd-label'>Research match</span> 9.0/10 <span class='match-label'>High Match</span><span class='muted'> — The work focuses on KV cache optimization, hierarchical memory systems, and real-system experiments, directly addressing the research profile&#x27;s core topics.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 7.2, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 9.0, total 9.62</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM serving)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.62" data-title="oneiros: kv cache optimization through parameter remapping for multi-tenant llm serving">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#24</div>
+                      <h2><a href="https://arxiv.org/abs/2507.11507" target="_blank" rel="noreferrer">Oneiros: KV Cache Optimization through Parameter Remapping for Multi-tenant LLM Serving</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 29 October, 2025; v1 submitted 15 July, 2025; originally announced July 2025. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.62</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">KV cache accelerates LLM inference by avoiding redundant computation, at the expense of memory. To support larger KV caches , prior work extends GPU memory with CPU memory via CPU- offloading . This involves swapping KV cache between GPU and CPU memory. However, because the cache updates dynamically, such swapping incurs high CPU memory traffic. We make a key observation that model parameters remain constant during runtime, unlike the dynamically updated KV cache . Building on this, we introduce Oneiros, which avoids KV cache swapping by remapping, and thereby repurposing, the memory allocated to model parameters for KV cache . This parameter remapping is especially beneficial in multi-tenant environments, where the memory used for the parameters of the inactive models can be more aggressively reclaimed. Exploiting the high CPU-GPU bandwidth offered by the modern hardware, such as the NVIDIA Grace Hopper Superchip, we show that Oneiros significantly outperforms state-of-the-art solutions, achieving a reduction of 44.8%-82.5% in tail time-between-token latency, 20.7%-99.3% in tail time-to-first-token latency, and 6.6%-86.7% higher throughput compared to vLLM. Source code of Oneiros is available at https://github.com/UT-SysML/Oneiros/. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>9.0</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.0</strong></span> <span class='detail-score'>참신성: <strong>8.5</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> Directly addresses KV cache optimization and offloading in multi-tenant LLM serving, with real-system experiments and significant performance improvements.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Aligns closely with the research profile&#x27;s focus on KV cache optimization, hierarchical memory systems, and real-system validation. Includes GPU-CPU offloading and vLLM integration.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> The paper introduces a novel approach to KV cache optimization through parameter remapping, which is highly relevant to AI systems and demonstrates substantial performance gains.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> Oneiros는 동적 업데이트되는 KV 캐시와 달리 런타임 동안 상수인 모델 파라미터의 특성을 활용하여, GPU와 CPU 메모리 간 KV 캐시 스왑을 피하고 파라미터 메모리를 재사용함으로써 성능을 개선한다. 다중 테넌트 환경에서 비활성 모델의 메모리를 적극적으로 재활용하여, NVIDIA Grace Hopper Superchip과 같은 하드웨어의 높은 CPU-GPU 대역폭을 활용하여 최신 솔루션보다 44.8%-82.5%의 테일 TBT 지연 시간, 20.7%-99.3%의 테일 TTFT 지연 시간, 6.6%-86.7%의 처리량 향상을 달성</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 9.0/10</span>
+                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving</span>
+                    <span class="chip">terms: KV cache, LLM inference, LLM serving, vLLM</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +7.2</li>
+                          <li>Title keyword bonus: +1.8</li>
+                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — Directly addresses KV cache optimization and offloading in multi-tenant LLM serving, with real-system experiments and significant performance improvements.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — The paper introduces a novel approach to KV cache optimization through parameter remapping, which is highly relevant to AI systems and demonstrates substantial performance gains.</span></li>
+                          <li><span class='bd-label'>Research match</span> 9.0/10 <span class='match-label'>High Match</span><span class='muted'> — Aligns closely with the research profile&#x27;s focus on KV cache optimization, hierarchical memory systems, and real-system validation. Includes GPU-CPU offloading and vLLM integration.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 7.2, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 9.0, total 9.62</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: vLLM, LLM serving, LLM inference)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.47" data-title="cache what lasts: token retention for memory-bounded kv cache in llms">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#25</div>
+                      <h2><a href="https://arxiv.org/abs/2512.03324" target="_blank" rel="noreferrer">Cache What Lasts: Token Retention for Memory-Bounded KV Cache in LLMs</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 28 February, 2026; v1 submitted 2 December, 2025; originally announced December 2025. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.47</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Memory and computation remain core bottlenecks in long-horizon LLM inference due to the quadratic cost of self- attention and the ever-growing key - value ( KV ) cache . Existing strategies for memory-bounded inference, such as quantization, offloading , or heuristic KV eviction, either incur high orchestration costs or rely on unreliable attention -based proxies of importance. We propose TRIM- KV , a novel approach that learns each token&#x27;s intrinsic importance at creation time via a lightweight retention gate. Each gate predicts a scalar retention score that decays over time, reflecting the long-term utility of the token for a specific layer and head. Tokens with low scores are evicted when the memory budget is exceeded, ensuring that the cache always contains the most critical tokens. TRIM- KV is trained efficiently through distillation from a frozen LLM combined with a capacity loss, requiring only gate fine-tuning and adding negligible inference overhead. Across mathematical reasoning (GSM8K, MATH-500, AIME24), procedural generation (LongProc), conversational long-memory benchmarks (LongMemEval), and long-context understanding (LongBenchV2 and SCBench), TRIM- KV consistently outperforms strong eviction and learnable retrieval baselines, especially in low-memory regimes. Remarkably, it even surpasses full- cache models in some settings, showing that selective retention can serve as a form of regularization, suppressing noise from uninformative tokens. Qualitative analyses further reveal that learned retention scores align with human intuition, naturally recovering heuristics such as sink tokens, sliding windows, and gist compression without explicit design. Beyond efficiency, retention scores provide insights into layer- and head-specific roles, suggesting a new path toward LLM interpretability. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>8.5</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.0</strong></span> <span class='detail-score'>참신성: <strong>8.5</strong></span> <span class='detail-score'>실용성: <strong>9.0</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> Proposes a novel KV cache optimization technique (TRIM-KV) with real-system validation and strong relevance to memory-bounded LLM inference.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> Directly aligns with KV cache optimization, compression, and LLM inference systems, with real benchmarks and system-level insights.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> TRIM-KV addresses a critical bottleneck in LLM inference with a well-validated, novel approach.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> TRIM-KV는 토큰의 중요도를 예측하여 메모리 제한이 있는 KV 캐시에서 효율적으로 토큰을 유지하는 새로운 접근법을 제안합니다. 경량화된 보존 게이트를 통해 토큰의 장기 유용성을 예측하고, 메모리 예산 초과 시 낮은 점수의 토큰을 제거합니다. 다양한 벤치마크에서 기존 기법보다 우수한 성능을 보여주며, 전체 캐시 모델보다 뛰어난 경우까지 있습니다. 또한, 레이어 및 헤드별 역할에 대한 통찰을 제공하여 LLM의 해석 가능성을 향상시킵니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 8.5/10</span>
+                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving, Compression &amp; Quantization</span>
+                    <span class="chip">terms: compression, KV cache, LLM inference, quantization</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +9.0</li>
+                          <li>Title keyword bonus: +0.9</li>
+                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — Proposes a novel KV cache optimization technique (TRIM-KV) with real-system validation and strong relevance to memory-bounded LLM inference.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — TRIM-KV addresses a critical bottleneck in LLM inference with a well-validated, novel approach.</span></li>
+                          <li><span class='bd-label'>Research match</span> 8.5/10 <span class='match-label'>High Match</span><span class='muted'> — Directly aligns with KV cache optimization, compression, and LLM inference systems, with real benchmarks and system-level insights.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 9.0, title-match 0.9, title-terms 0.3, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 8.5, total 9.47</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: LLM inference)</span></li><li><strong>Compression &amp; Quantization</strong>: +1.8 <span class='muted'>(terms: quantization, compression)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
                 </article><article class="card" data-score="9.4" data-title="sandwich: joint configuration search and hot-switching for efficient cpu llm serving">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#27</div>
+                      <div class="rank">#26</div>
                       <h2><a href="https://arxiv.org/abs/2507.18454" target="_blank" rel="noreferrer">Sandwich: Joint Configuration Search and Hot-Switching for Efficient CPU LLM Serving</a></h2>
                       <div class="meta">arXiv cs.DC (Distributed Computing) · Thu, 16 Apr 2026 00:00:00 -0400 · rss</div>
                     </div>
@@ -1475,7 +1426,7 @@
                 </article><article class="card" data-score="9.4" data-title="tokencake: a kv - cache -centric serving framework for llm-based multi-agent applications">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#28</div>
+                      <div class="rank">#27</div>
                       <h2><a href="https://arxiv.org/abs/2510.18586" target="_blank" rel="noreferrer">Tokencake: A KV - Cache -centric Serving Framework for LLM-based Multi-Agent Applications</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 31 October, 2025; v1 submitted 21 October, 2025; originally announced October 2025. · html</div>
                     </div>
@@ -1524,7 +1475,7 @@
                 </article><article class="card" data-score="9.4" data-title="tailorkv: a hybrid framework for long-context inference via tailored kv cache optimization">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#29</div>
+                      <div class="rank">#28</div>
                       <h2><a href="https://arxiv.org/abs/2505.19586" target="_blank" rel="noreferrer">TailorKV: A Hybrid Framework for Long-Context Inference via Tailored KV Cache Optimization</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 26 May, 2025; v1 submitted 26 May, 2025; originally announced May 2025. · html</div>
                     </div>
@@ -1573,7 +1524,7 @@
                 </article><article class="card" data-score="9.4" data-title="serve programs, not prompts">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#30</div>
+                      <div class="rank">#29</div>
                       <h2><a href="https://arxiv.org/abs/2510.25412" target="_blank" rel="noreferrer">Serve Programs, Not Prompts</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 29 October, 2025; originally announced October 2025. · html</div>
                     </div>
@@ -1622,7 +1573,7 @@
                 </article><article class="card" data-score="9.4" data-title="pariskv: fast and drift-robust kv - cache retrieval for long-context llms">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#31</div>
+                      <div class="rank">#30</div>
                       <h2><a href="https://arxiv.org/abs/2602.07721" target="_blank" rel="noreferrer">ParisKV: Fast and Drift-Robust KV - Cache Retrieval for Long-Context LLMs</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 10 February, 2026; v1 submitted 7 February, 2026; originally announced February 2026. · html</div>
                     </div>
@@ -1671,7 +1622,7 @@
                 </article><article class="card" data-score="9.4" data-title="nightjar: dynamic adaptive speculative decoding for large language models serving">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#32</div>
+                      <div class="rank">#31</div>
                       <h2><a href="https://arxiv.org/abs/2512.22420" target="_blank" rel="noreferrer">Nightjar: Dynamic Adaptive Speculative Decoding for Large Language Models Serving</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 3 March, 2026; v1 submitted 26 December, 2025; originally announced December 2025. · html</div>
                     </div>
@@ -1720,7 +1671,7 @@
                 </article><article class="card" data-score="9.4" data-title="icecache: memory-efficient kv - cache management for long-sequence llms">
                   <div class="card-head">
                     <div>
-                      <div class="rank">#33</div>
+                      <div class="rank">#32</div>
                       <h2><a href="https://arxiv.org/abs/2604.10539" target="_blank" rel="noreferrer">IceCache: Memory-efficient KV - cache Management for Long-Sequence LLMs</a></h2>
                       <div class="meta">arXiv KV Cache Search · Submitted 12 April, 2026; originally announced April 2026. · html</div>
                     </div>
@@ -1763,6 +1714,55 @@
                       <div>
                         <h3>Keyword contributions</h3>
                         <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>Data Movement &amp; Pipeline</strong>: +3.0 <span class='muted'>(terms: memory bandwidth)</span></li></ul>
+                      </div>
+                    </div>
+                  </details>
+                </article><article class="card" data-score="9.25" data-title="comparative characterization of kv cache management strategies for llm inference">
+                  <div class="card-head">
+                    <div>
+                      <div class="rank">#33</div>
+                      <h2><a href="https://arxiv.org/abs/2604.05012" target="_blank" rel="noreferrer">Comparative Characterization of KV Cache Management Strategies for LLM Inference</a></h2>
+                      <div class="meta">arXiv KV Cache Search · Submitted 6 April, 2026; originally announced April 2026. · html</div>
+                    </div>
+                    <div class="score-box">
+                      <div class="score">9.25</div>
+                      <div class="score-label">score · Must Read</div>
+                    </div>
+                  </div>
+
+                  <p class="summary">Efficient inference with Large Language Models (LLMs) increasingly relies on Key - Value ( KV ) caches to store previously computed key and value vectors at each layer. These caches are essential to minimize redundant computation during autoregressive token generation, lowering computational complexity from quadratic to linear. However, the growth of KV caches has posed significant system-level challenges, particularly as model sizes increase, context lengths grow, and concurrent requests compete for limited memory resources. Even though several recent frameworks for KV cache management have emerged, their comparative trade-offs in memory consumption and inference performance have not been fully understood, especially under varying request sizes and model configurations. In this work, we conduct an empirical study of three state-of-the-art KV cache management frameworks: vLLM, InfiniGen, and H2O. These frameworks employ techniques such as tensor offloading , token eviction heuristics, and speculative scheduling to balance memory usage and performance. We evaluate their performance in terms of a range of metrics such as latency, throughput, and memory usage across a spectrum of key parameters including request rates, model sizes, and sparsity levels. Our results pinpoint the conditions for each framework to perform the best, revealing the most suitable selection and configuration of KV cache strategies under memory and performance constraints. △ Less</p>
+
+                  <div class='llm-panel'><div class='llm-scores'><div class='llm-score-item'><span class='llm-score-num'>8.7</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag' style='background:#dc2626'>Must Read</span><span class='llm-score-label'>LLM 점수</span></div><div class='llm-score-item'><span class='llm-score-num'>8.5</span><span class='llm-score-denom'>/10</span><span class='llm-score-tag match'>High Match</span><span class='llm-score-label'>Research match</span></div><div class='llm-score-item'><span class='llm-score-num'>8.9</span><span class='llm-score-denom'>/10</span><span class='llm-score-label'>AI 추천</span></div></div><div class='detailed-scores'><span class='detail-score'>관련도: <strong>9.0</strong></span> <span class='detail-score'>기술깊이: <strong>8.0</strong></span> <span class='detail-score'>참신성: <strong>7.5</strong></span> <span class='detail-score'>실용성: <strong>8.5</strong></span></div><div class='llm-reason'><span class='reason-label'>평가:</span> The article provides a comparative analysis of KV cache management strategies, which is directly relevant to system-level KV/offloading research.</div><div class='llm-reason'><span class='reason-label'>Research match 이유:</span> The article aligns well with the research profile, focusing on KV cache optimization, LLM inference systems, and performance evaluation under varying conditions.</div><div class='llm-reason'><span class='reason-label'>AI 추천 이유:</span> The article evaluates state-of-the-art frameworks for KV cache management, offering insights into memory consumption and inference performance trade-offs.</div><div class='content-summary'><span class='summary-label'>📝 본문 요약:</span> 이 논문은 LLM 추론에서 KV 캐시 관리를 위한 세 가지 최신 프레임워크(vLLM, InfiniGen, H2O)를 비교 분석합니다. 각 프레임워크의 메모리 사용량과 추론 성능을 다양한 요청 크기, 모델 구성, 희소성 수준에서 평가하여 최적의 선택과 구성 조건을 제시합니다.</div></div>
+
+                  <div class="chips">
+                    <span class="chip tier-chip" style="background:#dc2626">Must Read</span>
+                    <span class="chip match-chip">research match: 8.5/10</span>
+                    <span class="chip">keywords: KV Cache Systems, LLM Inference &amp; Serving</span>
+                    <span class="chip">terms: KV cache, LLM inference, vLLM</span>
+                  </div>
+
+                  <details>
+                    <summary>Why this score?</summary>
+                    <div class="details-grid">
+                      <div>
+                        <h3>Breakdown</h3>
+                        <ul>
+                          <li>Source priority: +2.0</li>
+                          <li>Keyword matches: +7.2</li>
+                          <li>Title keyword bonus: +1.8</li>
+                          <li>Title bonus terms: +0.3 <span class='muted'>(KV cache)</span></li>
+                          <li>Recency bonus: +0.0</li>
+                          <li>Summary bonus: +0.2</li>
+                          <li>Read tier: Must Read <span class='muted'>(Directly useful for system-level KV/offloading research)</span></li>
+                          <li><span class='bd-label'>LLM score</span> 8.7/10 <span class='tier-badge' style='background:#dc2626'>Must Read</span><span class='muted'> — The article provides a comparative analysis of KV cache management strategies, which is directly relevant to system-level KV/offloading research.</span></li>
+                          <li><span class='bd-label'>AI 추천</span> 8.9/10 <span class='muted'> — The article evaluates state-of-the-art frameworks for KV cache management, offering insights into memory consumption and inference performance trade-offs.</span></li>
+                          <li><span class='bd-label'>Research match</span> 8.5/10 <span class='match-label'>High Match</span><span class='muted'> — The article aligns well with the research profile, focusing on KV cache optimization, LLM inference systems, and performance evaluation under varying conditions.</span></li>
+                        </ul>
+                        <p class="explanation"><strong>Short explanation:</strong> source 2.0, keywords 7.2, title-match 1.8, title-terms 0.3, summary 0.2, tier Must Read, llm 8.7, ai-rec 8.9, research-match 8.5, total 9.25</p>
+                      </div>
+                      <div>
+                        <h3>Keyword contributions</h3>
+                        <ul><li><strong>KV Cache Systems</strong>: +4.2 <span class='muted'>(terms: KV cache)</span></li><li><strong>LLM Inference &amp; Serving</strong>: +3.0 <span class='muted'>(terms: vLLM, LLM inference)</span></li></ul>
                       </div>
                     </div>
                   </details>
